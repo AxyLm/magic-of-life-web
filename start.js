@@ -16,11 +16,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
    const cors=require('cors')
    app.use(cors())
 
-// const FileRouter = require('./router/fileRouter')
+const users = require('./route/users')
 
 // initShell
 
-// app.use('/file',FileRouter)
+app.use('/users',users)
 
 app.use('/',express.static(path.join(__dirname,'./static/apidoc'))) // 接口文档页
 

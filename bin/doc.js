@@ -1,14 +1,14 @@
-const shell = 'apidoc -i router/ -o static/apidoc/'
+const shell = 'apidoc -i route/ -o static/apidoc/'
 const process = require('child_process');
-
+const {SERVER_PORT} = require('../config/main')
 //生成文档
 function gendoc(){
     process.exec(shell,function(err){
         if(err == null){
-            console.log('create dochtml success to http://localhost:1617')
+            console.log('create dochtml success to http://localhost:'+SERVER_PORT)
             return 'doc generate success'
         }else{
-            console.log('doc generate err')
+            console.log(err,'doc generate err')
             return 'doc generate err'
         }
     })

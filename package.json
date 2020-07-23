@@ -24,6 +24,10 @@
     "server",
     "后台"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AxyLm/magic-of-life-web.git"
+  },
   "author": "my",
   "license": "ISC"
 }
