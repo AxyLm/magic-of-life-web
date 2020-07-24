@@ -1,6 +1,16 @@
 [
   {
     "type": "post",
+    "url": "/user/getrole",
+    "title": "",
+    "version": "0.0.0",
+    "filename": "route/users.js",
+    "group": "D:\\Project\\magic-of-life-web\\route\\users.js",
+    "groupTitle": "D:\\Project\\magic-of-life-web\\route\\users.js",
+    "name": "PostUserGetrole"
+  },
+  {
+    "type": "post",
     "url": "/user/getMailCode",
     "title": "发送邮箱验证码",
     "group": "User",

@@ -103,6 +103,25 @@ Router.post('/addroute',(req,res)=>{
 })
 
 /**
+ * @api {post} /user/getrole
+ */
+Router.post('/getrole',(req,res)=>{
+    try {
+        rolesModel.find({})
+        .then((data)=>{
+            if(data){
+                res.send({code:0,msg:'成功',data}) 
+            }else{
+                res.send({code:-1,msg:'无数据'})
+            }
+        })
+    } catch (error) {
+        console.log(console.log(error))
+        res.send({code:-1,msg:'运行异常'}) 
+    }
+})
+
+/**
  * @api {post} /users/addrole 添加角色
  * @apiGroup userInfo
  * @apiParam {string} code
