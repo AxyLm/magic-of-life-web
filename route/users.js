@@ -2,11 +2,11 @@ const express =require('express')
 const Router = express.Router()
 const {routers,authRoules,roles,users} =require('../db/model/users')
 // const {routerList,authRoute,roles} = require('./route.js')
-
+const rolesModel = roles
 
 /**
  * @api {post} /users/getAuthRouter 根据权限获取相应路由
- * 
+ * @apiGroup userInfo
  * @apiParam {String} role
  */
 Router.post('/getAuthRouter',(req,res)=>{
@@ -18,6 +18,7 @@ Router.post('/getAuthRouter',(req,res)=>{
             // authRoules.find({})
             roles.findOne({roles:role})
             .then((data)=>{
+                console.log(data)
                 authRoules.find({visibleRoles:{$regex:data.code}})
                 .then((auth)=>{
                     console.log(auth)
@@ -29,7 +30,7 @@ Router.post('/getAuthRouter',(req,res)=>{
             })
             .catch((err)=>{
                 console.log(err)
-                res.send('err')
+                res.send({code:-1,msg:'运行异常'})
             })
         })
     } catch (error) {
@@ -73,7 +74,12 @@ Router.post('/getAuthRouter',(req,res)=>{
 }) 
 
 /**
- * @api {post} /users/addroute
+ * @api {post} /users/addroute 添加路由
+ * @apiGroup userInfo
+ * @apiParam {String} title
+ * @apiParam {String} name
+ * @apiParam {String} parent
+ * @apiParam {Array} visibleRoles
  */
 Router.post('/addroute',(req,res)=>{
     let  {title,name,parent,visibleRoles} = req.body
@@ -98,22 +104,30 @@ Router.post('/addroute',(req,res)=>{
 
 /**
  * @api {post} /users/addrole 添加角色
- * 
+ * @apiGroup userInfo
+ * @apiParam {string} code
+ * @apiParam {string} name
+ * @apiParam {string} roles
  */
 Router.post('/addrole',(req,res)=>{
     try {
-        let {code,name,title} = req.body
-        roles.insertMany({code,name,title})
+        let {code,name,roles} = req.body
+        rolesModel.findOne({code})
         .then((data)=>{
-            res.send({code:0,msg:'添加成功',
-                data:{
-                    code,name,title
-                }
-            })
-        })
-        .catch((err)=>{
-            console.log(err)
-            res.send({code:-1,msg:'角色添加失败'})
+            if(data){
+                res.send({code:-2,msg:'code重复'}) 
+            }else{
+                rolesModel.insertMany({code,name,roles})
+                .then((data)=>{
+                    res.send({code:0,msg:'添加成功',
+                        data:{code,name,roles}
+                    })
+                })
+                .catch((err)=>{
+                    console.log(err)
+                    res.send({code:-1,msg:'角色添加失败'})
+                })
+            }
         })
     } catch (error) {
         console.log(console.log(error))
