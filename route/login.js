@@ -1,11 +1,12 @@
 const express =require('express')
 const Router = express.Router()
-// const User=require('../db/model/userModel')
-// const loginTime=require('../db/model/loginTime')
-// const authRouter=require('../db/model/authRouter')
-// const Jwt = require('../utils/jwt')
-// const Mail=require('../utils/mile')
+const Mail=require('../utils/mile')
+const {users} =require('../db/model/users')
+const EncryptUtil = require('../utils/EncryptUtil')
+const {roleGetRouter} = require('../utils/Auth')
+const DeepClone = require('../utils/cs')
 
+const Jwt = require('../utils/jwt')
 /**
  * @api {post} /user/login  用户登录
  * @apiGroup User
@@ -28,42 +29,29 @@ const Router = express.Router()
 
 Router.post('/login',(req,res)=>{
   let {username,password}=req.body
-  User.find({username,password})
+  console.log(DeepClone)
+  users.findOne({usersName:username})
   .then((data)=>{
-    if(data[0].username==username){ 
-    	if(data[0].password==password){
-        let  token=Jwt.creatToken(username,6000)
-        
-        
-        // authRouter.find({auth:data[0].authority}) //路由列表
-        // .then((auth)=>{
-          // let userInfo = new Object()
-          // userInfo.username = data[0].username
-          // userInfo.authRouterList = data[0].authRouterList
-          // userInfo.token = token
-          // console.log(userInfo,data[0])
+    if(data){
+      let encryptPs = EncryptUtil.Decrypt(data.passWord)
+    	if(encryptPs == password){
           let userInfo = {
-            "token":token,
-            "username":data[0].username,
-            "authRouterList":data[0].authRouterList
+            "username":data.usersName,
           }
-          res.send({code:0,msg :'登录成功',data:userInfo})
-        // })
-
-
-
-        let date = new Date
-        let timeLine = Math.round( ( date.getTime() ) / 1000 )
-        let loginTimeInfo = {
-          "userId":data[0]._id,
-          "userName":data[0].username,
-          "loginTime":timeLine
-        }
-        loginTime.insertMany(loginTimeInfo)
-        // User.updateOne({_id:data[0]._id},{loginTime})
+          let  token=Jwt.creatToken(username,6000)
+          roleGetRouter(data.role)
+          .then((data)=>{
+            console.log(data)
+            res.send({code:0,msg :'登录成功',data:{...userInfo,...data.role,token,route:data.tree}})
+          })
+          .catch((err)=>{
+            res.send({code:-1,msg :err,data:userInfo})
+          })
     	}else{
-    		res.send({code:-7,msg : '密码不正确'})
+    		res.send({code:-7,msg : '用户名或密码错误',data:null})
     	}
+    }else{
+      res.send({code:-8,msg : '用户不存在',data:null})
     }
   })
 	.catch((err)=>{
@@ -73,6 +61,12 @@ Router.post('/login',(req,res)=>{
 
 })
 
+Router.post('/sig',(req,res)=>{
+  let sig = 1//EncryptUtil.md5Get(req.body.sig)
+  let aes = EncryptUtil.aesDecrypt(req.body.sig)
+  console.log(aes)
+  res.status().send(aes,sig)
+})
 /**
  * @api {post} /user/reg  用户注册
  * @apiGroup User
@@ -91,33 +85,46 @@ Router.post('/login',(req,res)=>{
  * @apiSampleRequest http://localhost:9999/user/reg
  */
 Router.post('/reg',(req,res)=>{
-  let  {username, password} = req.body
-  // 判断参数是否正确
-  User.find({username})
-  .then((data)=>{
-    if(data.length===0){
-        // 用户名不存在 可以注册
-        User.insertMany({username,password})
-        .then((data)=>{
-          res.send({
-              code:0,
-              msg:'注册成功',
-              data:{
-                username:username,
-                password:password,
-              }
-            })
-        })
-        .catch((err)=>{
-          res.send({code:-1,msg:'注册失败'})
-        })
-    }else{
-      res.send({code:-3,msg:'用户名已存在'})
+  try {
+    if(!req.body.role){
+      req.body.role = 'guest' // 默认访客
     }
-  })  
-  .catch((err)=>{
-    res.send({code:-2,msg:'运行异常'})
-  })
+    let  {username, password,role,uId} = req.body
+    
+    // 判断参数是否正确
+    users.find({usersName:username})
+    .then((data)=>{
+      if(data.length===0){
+          // 用户名不存在 可以注册
+          let info = {
+            usersName:username,
+            passWord:EncryptUtil.aesDecrypt(password),
+            uId:uId,
+            role:role, // 角色
+            createTime:(new Date().getTime()),
+          }
+          users.insertMany({...info})
+          .then((data)=>{
+            res.send({
+                code:0,
+                msg:'注册成功',
+                data:{username, password,role,uId}
+              })
+          })
+          .catch((err)=>{
+            res.send({code:-1,msg:'注册失败'})
+          })
+      }else{
+        res.send({code:-3,msg:'用户名已存在'})
+      }
+    })  
+    .catch((err)=>{
+      console.log(err)
+      res.send({code:-2,msg:'运行异常'})
+    })
+  } catch (error) {
+    res.send({code:-3,msg:'系统异常'})
+  }
 })
 
 

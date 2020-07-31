@@ -38,10 +38,11 @@ const authRoles = new mongoose.Schema({
  */
 const routerScheme = new mongoose.Schema({
   title:{type:String,required:false},
-  name:{type:String,required:false},
+  route:{type:String,required:false},
   path:{type:String,required:false},
   icon:{type:String,required:false},
   type:{type:String,required:false},
+  component:{type:String,required:false},
   description:{type:String,required:false},
 })
 module.exports = {

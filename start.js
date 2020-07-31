@@ -17,9 +17,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
    app.use(cors())
 
 const users = require('./route/users')
+const login = require('./route/login')
 
 // initShell
-
+app.use('/soulfree/login',(req,res,next)=>{
+  if(req['headers'].sig = 'magicLife'){
+    next()
+  }else{
+    res.send(404)
+  }
+},login)
 app.use('/users',users)
 
 app.use('/',express.static(path.join(__dirname,'./static/apidoc'))) // 接口文档页
