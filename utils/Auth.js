@@ -18,10 +18,13 @@ function roleGetRouter(role){
                         let tree = getTree(auth,routerList) // 合并树状路由
                         res({tree,role:{name,roles}})
                     })
+                    .catch((err)=>{
+                        rej('查找角色权限失败')
+                    })
                 })
                 .catch((err)=>{
                     console.log(err)
-                    rej('运行异常')
+                    rej('查找用户角色失败')
                 })
             })
         } catch (error) {

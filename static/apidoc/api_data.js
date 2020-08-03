@@ -2,7 +2,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "/user/getrole",
-    "title": "",
+    "title": "获取所有角色",
     "version": "0.0.0",
     "filename": "route/users.js",
     "group": "D:\\Project\\magic-of-life-web\\route\\users.js",
@@ -70,7 +70,7 @@ define({ "api": [
       "examples": [
         {
           "title": "返回实列:",
-          "content": "{\n code:0,\n msg :'登录成功',\n data:{\n   token:token,\n   username:username\n }\n}",
+          "content": "{\n code:0,\n msg :'登录成功',\n data:{\n   token:'',\n   username:'',\n   role:''\n   route:[]\n }\n}",
           "type": "json"
         }
       ]
@@ -114,7 +114,7 @@ define({ "api": [
       "examples": [
         {
           "title": "返回实列:",
-          "content": "{\n  code:0,\n    msg:'注册成功',\n    data:{\n      username:username,\n      password:password,\n    }\n  }",
+          "content": "{\n    code:0,\n    msg:'注册成功',\n    data:{\n      username:username,\n      password:password,\n    }\n  }",
           "type": "json"
         }
       ]

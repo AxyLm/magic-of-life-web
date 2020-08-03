@@ -5,12 +5,12 @@ const {users} =require('../db/model/users')
 const EncryptUtil = require('../utils/EncryptUtil')
 const {roleGetRouter} = require('../utils/Auth')
 const DeepClone = require('../utils/cs')
-
 const Jwt = require('../utils/jwt')
+
+
 /**
  * @api {post} /user/login  用户登录
  * @apiGroup User
- *
  * @apiParam {String} username  用户名.
  * @apiParam {String} password 密码.
  * @apiSuccessExample {json} 返回实列:
@@ -18,18 +18,21 @@ const Jwt = require('../utils/jwt')
  *      code:0,
  *      msg :'登录成功',
  *      data:{
-  *        token:token,
-  *        username:username
+  *        token:'',
+  *        username:'',
+  *        role:''
+  *        route:[]
   *      }
   *     }
  * @apiSampleRequest http://localhost:9999/user/login
  * 
  */
-
-
 Router.post('/login',(req,res)=>{
+try {
   let {username,password}=req.body
-  console.log(DeepClone)
+  if(!username || !password){
+    res.send({code:104,msg:'缺少参数'})
+  }
   users.findOne({usersName:username})
   .then((data)=>{
     if(data){
@@ -45,20 +48,22 @@ Router.post('/login',(req,res)=>{
             res.send({code:0,msg :'登录成功',data:{...userInfo,...data.role,token,route:data.tree}})
           })
           .catch((err)=>{
-            res.send({code:-1,msg :err,data:userInfo})
+            res.send({code:103,msg :err,data:userInfo})
           })
     	}else{
-    		res.send({code:-7,msg : '用户名或密码错误',data:null})
+    		res.send({code:107,msg : '用户名或密码错误',data:null})
     	}
     }else{
-      res.send({code:-8,msg : '用户不存在',data:null})
+      res.send({code:102,msg : '用户不存在',data:null})
     }
   })
 	.catch((err)=>{
     console.log(err)
-		return res.send({code:-1,msg:'运行异常'})
+		return res.send({code:101,msg:'运行异常'})
 	})
-
+} catch (error) {
+  res.send({code:400,msg:'系统异常'})
+}
 })
 
 Router.post('/sig',(req,res)=>{
@@ -70,12 +75,11 @@ Router.post('/sig',(req,res)=>{
 /**
  * @api {post} /user/reg  用户注册
  * @apiGroup User
- *
  * @apiParam {String} username  用户名.
  * @apiParam {String} password 密码.
  * @apiSuccessExample {json} 返回实列:
  *     {
-      code:0,
+        code:0,
         msg:'注册成功',
         data:{
           username:username,

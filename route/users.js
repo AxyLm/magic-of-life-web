@@ -82,44 +82,79 @@ Router.post('/getAuthRouter',(req,res)=>{
  * @apiParam {Array} visibleRoles
  */
 Router.post('/addroute',(req,res)=>{
-    try {
-        
-    
-    let  {title,route,path,icon,component,parent,visibleRoles} = req.body
+try {
+    let {title,route,path,icon,component,parent,visibleRoles} = req.body
+    if(!parent && component !== 'Layout'){
+        res.send({code:102,msg:'根组件的compoent需指向框架Layout'})
+        return
+    }
     // 判断参数是否正确 
     routers.insertMany({title,route,path,icon,component})
     // authRoute.insertMany({})
     .then((data)=>{
-        authRoules.insertMany({routerId:data[0]._id,parent,visibleRoles})
-        .then(()=>{
-            res.send({code:0,msg:'添加成功',data:{title,route,path,icon,component}})
-        })
-        .catch((err)=>{
-            console.log(err)
-            res.send({code:-2,msg:'权限添加失败'})
-        })
+        if(visibleRoles == 'all'){
+            rolesModel.find({}) // 取所有角色
+            .then((role)=>{
+                let visibleRoles = []
+                for (let i = 0; i < role.length; i++) {
+                    const item = role[i];
+                    visibleRoles.push(item.code)
+                }
+                authRoules.insertMany({routerId:data[0]._id,parent,visibleRoles})
+                .then(()=>{
+                    res.send({code:0,msg:'添加成功',data:{title,route,path,icon,component,id:data[0]._id}})
+                })
+                .catch((err)=>{
+                    console.log(err)
+                    res.send({code:101,msg:'权限添加失败'})
+                })
+            }).catch((err)=>{
+                res.send({code:103,msg:'角色获取失败'})
+            })
+        }else{
+            authRoules.insertMany({routerId:data[0]._id,parent,visibleRoles})
+            .then(()=>{
+                res.send({code:0,msg:'添加成功',data:{title,route,path,icon,component,id:data[0]._id}})
+            })
+            .catch((err)=>{
+                console.log(err)
+                res.send({code:101,msg:'权限添加失败'})
+            })
+        }
+
     })
     .catch((err)=>{
         console.log(err)
-      res.send({code:-1,msg:'添加失败'})
+        res.send({code:100,msg:'添加失败'})
     })
 } catch (error) {
     console.log(error)
 
-    res.send({code:-1,msg:'运行异常'})
+    res.send({code:400,msg:'运行异常'})
         
 }
 })
 
 /**
- * @api {post} /user/getrole
+ * @api {post} /user/getrole 获取所有角色
  */
 Router.post('/getrole',(req,res)=>{
     try {
+        
         rolesModel.find({})
         .then((data)=>{
             if(data){
-                res.send({code:0,msg:'成功',data}) 
+                if(req.body.type == 'list'){
+                    let role = data
+                    let visibleRoles = []
+                    for (let i = 0; i < role.length; i++) {
+                        const item = role[i];
+                        visibleRoles.push(item.code)
+                    }
+                    res.send({code:0,msg:'成功',data:visibleRoles}) 
+                }else{
+                    res.send({code:0,msg:'成功',data}) 
+                }
             }else{
                 res.send({code:-1,msg:'无数据'})
             }
@@ -164,46 +199,4 @@ Router.post('/addrole',(req,res)=>{
     
 })
 
-const userRouter = Router.post('/',(req,res)=>{
-    try {
-        const body = req.body
-        if(body.usersName && body.passWord && body.role){
-            var  {usersName,passWord,role,uId} = req.body
-        }else{
-            res.send({code:300,msg:'缺少参数'})
-            return
-        }
-        let avatar = body.avatar? body.avatar:null
-        let phone = body.phone? body.phone:null
-        let emile = body.emile? body.emile:null
-        let createTime = (new Date()).getTime()
-        users.findOne({usersName})
-        .then((finds)=>{
-            if(finds){
-                res.send({code:301,msg:'添加失败'})
-                return 
-            }
-            users.insertMany({usersName,passWord,role,uId,avatar,phone,emile,createTime})
-            .then((data)=>{
-                res.send({
-                    code:0,
-                    msg:'添加成功',
-                    data:{usersName,role}
-                })
-            })
-            .catch((err)=>{
-                console.log(err)
-                res.send({code:401,msg:'添加失败'})
-            })
-        })
-    } catch (error) {
-        console.log(error)
-        res.send({code:400,msg:'系统异常'})
-    }
-})
-express().use('/addUser',(req,res,next)=>{
-    console.log('req')
-    next()
-},userRouter)
- 
 module.exports=Router
