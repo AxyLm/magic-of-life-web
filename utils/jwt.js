@@ -8,7 +8,7 @@ function creatToken(data = {}, ) {
 	// palyload.ctime=Date.now()//创建时间
 	// palyload.exp=exp||1000*60*24*7
 	return jwt.sign(palyload, scrict, {
-		expiresIn: 60 * 60
+		expiresIn: 1000 * 60
 	})
 }
 

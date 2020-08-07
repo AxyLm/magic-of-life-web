@@ -212,6 +212,29 @@ define({ "api": [
   },
   {
     "type": "post",
+    "url": "/users/addroute",
+    "title": "删除路由",
+    "group": "userInfo",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "routerId",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "route/users.js",
+    "groupTitle": "userInfo",
+    "name": "PostUsersAddroute"
+  },
+  {
+    "type": "post",
     "url": "/users/getAuthRouter",
     "title": "根据权限获取相应路由",
     "group": "userInfo",

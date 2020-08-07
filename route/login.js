@@ -41,7 +41,7 @@ try {
           let userInfo = {
             "username":data.usersName,
           }
-          let  token=Jwt.creatToken(username,6000)
+          let token=EncryptUtil.Decrypt( Jwt.creatToken(username,6000) ) 
           roleGetRouter(data.role)
           .then((data)=>{
             console.log(data)

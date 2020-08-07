@@ -4,6 +4,9 @@ const {routers,authRoules,roles,users} =require('../db/model/users')
 function roleGetRouter(role){
     return new Promise((res,rej)=>{
         try {
+            if(!role){
+                rej('缺少参数')
+            }
             routers.find({})
             .then((data)=>{
                 let routerList = data
@@ -40,8 +43,10 @@ function getTree(data = [],routerList, sid, parent = null) {
         const node = data[i];
         if ( ( (!parent && !node.parent) || node.parent === parent) && node.routerId !== sid ) {
             let {title,route,path,icon,component} = getRouter(routerList,node.routerId,'_id')
+            let id = node.routerId
+            let parent = node.parent
             children.push({
-                title,route,path,icon,component,
+                title,route,path,icon,component,slots:({parent,id}),
                 children: getTree(data,routerList, sid, node.routerId)
             });
         }
