@@ -25,6 +25,42 @@ Router.post('/getAuthRouter',(req,res)=>{
         res.send({code:-1,msg:'运行异常'})
     }
 }) 
+Router.post('/queryRouter',(req,res)=>{
+try {
+    let {node} = req.body
+
+    let router = routers.findOne({_id:node.id})
+    let auth = authRoules.findOne({routerId:node.id})
+    Promise.all([router,auth])
+    .then((promises)=>{
+        let routerData = promises[0]
+        let authData = promises[1]
+
+        let {component,icon,path,route,title,_id} = routerData
+        let routeData = {component,icon,path,route,title,id:_id}
+        if(node.parent){
+            routers.findOne({_id:node.parent})
+            .then((parent)=>{
+                let parentData = {
+                    title:parent.title,
+                    id:parent._id
+                }
+                res.send({code:0,msg:null,data:{...routeData,parent:parentData,visibleRoles:authData.visibleRoles}})
+            })
+        }else{
+            res.send({code:0,msg:null,data:{...routeData,parent:null,visibleRoles:authData.visibleRoles}})
+        }
+    }).catch((err)=>{
+
+    })
+    // routers.findOne({_id:node.id})
+    // .then((data)=>{
+        
+    // })
+} catch (error) {
+    res.send({code:400,msg:'运行异常'})
+}
+})
 
 /**
  * @api {post} /users/addroute 添加路由

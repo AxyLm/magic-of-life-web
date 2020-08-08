@@ -46,7 +46,7 @@ function getTree(data = [],routerList, sid, parent = null) {
             let id = node.routerId
             let parent = node.parent
             children.push({
-                title,route,path,icon,component,slots:({parent,id}),
+                title,route,path,icon,component,slots:({parent,id}),scopedSlots:({title:'change'}),
                 children: getTree(data,routerList, sid, node.routerId)
             });
         }
