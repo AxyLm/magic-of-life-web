@@ -8,7 +8,7 @@ mongoose.connection.on('connected', function () {
 });
 
 /**
-* 连接异常
+* 连接异常rs
 */
 mongoose.connection.on('error',function (err) {
   console.log('Mongoose connection error: ' + err);

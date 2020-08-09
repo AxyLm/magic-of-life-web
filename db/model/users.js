@@ -30,7 +30,8 @@ const rolesScheme = new mongoose.Schema({
 const authRoles = new mongoose.Schema({
   parent:{type:String,require:false},
   routerId:{type:String,require:true},
-  visibleRoles:{type:Array,require:true}
+  visibleRoles:{type:Array,require:true},
+  sequence:{type:Number,require:true}
 })
 
 /**

@@ -45,10 +45,10 @@ try {
                     title:parent.title,
                     id:parent._id
                 }
-                res.send({code:0,msg:null,data:{...routeData,parent:parentData,visibleRoles:authData.visibleRoles}})
+                res.send({code:0,msg:null,data:{...routeData,parent:parentData,sequence:authData.sequence,visibleRoles:authData.visibleRoles}})
             })
         }else{
-            res.send({code:0,msg:null,data:{...routeData,parent:null,visibleRoles:authData.visibleRoles}})
+            res.send({code:0,msg:null,data:{...routeData,parent:null,sequence:authData.sequence,visibleRoles:authData.visibleRoles}})
         }
     }).catch((err)=>{
 
@@ -72,10 +72,13 @@ try {
  */
 Router.post('/addroute',(req,res)=>{
 try {
-    let {title,route,path,icon,component,parent,visibleRoles} = req.body
+    let {title,route,path,icon,component,parent,visibleRoles,sequence} = req.body
     if(!parent && component !== 'Layout'){
         res.send({code:102,msg:'根组件的compoent需指向框架Layout'})
         return
+    }
+    if(!sequence){
+        res.send({code:103,msg:'缺少序列'})
     }
     // 判断参数是否正确 
     routers.insertMany({title,route,path,icon,component})
@@ -89,9 +92,9 @@ try {
                     const item = role[i];
                     visibleRoles.push(item.code)
                 }
-                authRoules.insertMany({routerId:data[0]._id,parent,visibleRoles})
+                authRoules.insertMany({routerId:data[0]._id,parent,visibleRoles,sequence})
                 .then(()=>{
-                    res.send({code:0,msg:'添加成功',data:{title,route,path,icon,component,id:data[0]._id}})
+                    res.send({code:0,msg:'添加成功',data:{title,route,path,icon,component,sequence,id:data[0]._id}})
                 })
                 .catch((err)=>{
                     console.log(err)
@@ -101,9 +104,9 @@ try {
                 res.send({code:103,msg:'角色获取失败'})
             })
         }else{
-            authRoules.insertMany({routerId:data[0]._id,parent,visibleRoles})
+            authRoules.insertMany({routerId:data[0]._id,parent,visibleRoles,sequence})
             .then(()=>{
-                res.send({code:0,msg:'添加成功',data:{title,route,path,icon,component,id:data[0]._id}})
+                res.send({code:0,msg:'添加成功',data:{title,route,path,icon,component,sequence,id:data[0]._id}})
             })
             .catch((err)=>{
                 console.log(err)
@@ -155,6 +158,34 @@ try {
 }
 })
 
+/**
+ * @api {post} /users/updataRouote 更新路由信息
+ * @apiGroup userInfo
+ * @apiParam {String} id
+ */
+Router.post('/updateRoute',(req,res)=>{
+try {
+    let id = req.body.id
+    let {component,icon,path,route,title,visibleRoles} = req.body
+    routers.findByIdAndUpdate(id,{component,icon,path,route,title,visibleRoles})
+    .then((data)=>{
+        let {component,icon,path,route,title,visibleRoles} = data
+
+        let {sequence,parent} = req.body
+        if( sequence || parent ){
+            authRoules.findOneAndUpdate({routerId:id},{sequence,parent})
+            .then((auth)=>{
+                let {sequence,parent} = auth
+                res.send({code:0,data:{component,icon,path,route,title,visibleRoles,sequence,parent},msg:'成功'})
+            })
+        }else{
+            res.send({code:0,data:{component,icon,path,route,title,visibleRoles,sequence,parent},msg:'成功'})
+        }
+    })
+} catch (error) {
+    res.send({code:400,msg:'运行异常'})
+}
+})
 /**
  * @api {post} /user/getrole 获取所有角色
  */

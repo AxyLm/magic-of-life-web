@@ -255,5 +255,28 @@ define({ "api": [
     "filename": "route/users.js",
     "groupTitle": "userInfo",
     "name": "PostUsersGetauthrouter"
+  },
+  {
+    "type": "post",
+    "url": "/users/updataRouote",
+    "title": "更新路由信息",
+    "group": "userInfo",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "id",
+            "description": ""
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "route/users.js",
+    "groupTitle": "userInfo",
+    "name": "PostUsersUpdatarouote"
   }
 ] });
