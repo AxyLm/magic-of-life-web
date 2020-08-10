@@ -40,8 +40,9 @@ try {
     	if(encryptPs == password){
           let userInfo = {
             "username":data.usersName,
+            "avatar" : data.avatar,
           }
-          let token=EncryptUtil.Decrypt( Jwt.creatToken(username,6000) ) 
+          let token=EncryptUtil.md5Set( Jwt.creatToken(username,6000) ) 
           roleGetRouter(data.role)
           .then((data)=>{
             res.send({code:0,msg :'登录成功',data:{...userInfo,...data.role,token,route:data.tree}})

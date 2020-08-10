@@ -10,11 +10,9 @@ function roleGetRouter(role){
             routers.find({}).sort({'sequence':1})
             .then((data)=>{
                 let routerList = bubbleSort(data)
-                console.log('排序完成',routerList)
                 // authRoules.find({})
                 roles.findOne({roles:role})
                 .then((data)=>{
-                    console.log(data)
                     let {name,roles} = data
                     authRoules.find({visibleRoles:{$regex:data.code}}).sort({"sequence":1})
                     .then((auth)=>{

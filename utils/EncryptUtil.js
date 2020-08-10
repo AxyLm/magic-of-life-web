@@ -16,7 +16,7 @@ module.exports={
     return encrypted
   },
   md5Set:function(encrypted){
-    return CryptoJS.AES.decrypt(encrypted, SECRET).toString(CryptoJS.enc.Utf8);
+    return CryptoJS.MD5(encrypted).toString();
   },
   aesDecrypt: function(val) {
     let srcs = CryptoJS.enc.Utf8.parse(val);
