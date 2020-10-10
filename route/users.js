@@ -4,7 +4,6 @@ const {routers,authRoules,roles,users} =require('../db/model/users')
 // const {routerList,authRoute,roles} = require('./route.js')
 const rolesModel = roles
 const {roleGetRouter} = require('../utils/Auth')
-
 /**
  * @api {post} /users/getAuthRouter 根据权限获取相应路由
  * @apiGroup userInfo
@@ -192,7 +191,7 @@ try {
 Router.post('/getrole',(req,res)=>{
     try {
         
-        rolesModel.find({})
+        rolesModel.find({},{_id:0})
         .then((data)=>{
             if(data){
                 if(req.body.type == 'list'){

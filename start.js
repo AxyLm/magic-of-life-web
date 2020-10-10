@@ -17,7 +17,8 @@ app.use(cors())
 
 const users = require('./route/users')
 const login = require('./route/login')
-
+const divers = require('./route/divers')
+const api = require('./route/api')
 // initShell
 app.use('/soulfree/login',(req,res,next)=>{
   if(req['headers'].sig = 'magicLife'){
@@ -27,6 +28,12 @@ app.use('/soulfree/login',(req,res,next)=>{
   }
 },login)
 app.use('/users',users)
+
+/**
+ * 娱乐
+ */
+app.use('/soulfree',divers)
+app.use('/soulfree/api',api)
 
 app.use('/',express.static(path.join(__dirname,'./static/apidoc'))) // 接口文档页
 app.use('/public',express.static(path.join(__dirname,'./static/media'))) // 静态目录
