@@ -1,0 +1,16 @@
+{
+    "appenders": {
+        "consoleout": {
+            "type": "file",
+            "filename": "./log/app.log"
+        }
+    },
+    "categories": {
+        "default": {
+            "appenders": [
+                "consoleout"
+            ],
+            "level": "debug"
+        }
+    }
+}

@@ -77,7 +77,7 @@ define({ "api": [
     },
     "sampleRequest": [
       {
-        "url": "http://localhost:9999/user/login"
+        "url": "/user/login"
       }
     ],
     "version": "0.0.0",
@@ -121,13 +121,33 @@ define({ "api": [
     },
     "sampleRequest": [
       {
-        "url": "http://localhost:9999/user/reg"
+        "url": "/user/reg"
       }
     ],
     "version": "0.0.0",
     "filename": "route/login.js",
     "groupTitle": "User",
     "name": "PostUserReg"
+  },
+  {
+    "type": "post",
+    "url": "/monit/frpMonit",
+    "title": "获取frp服务端状态",
+    "group": "monit",
+    "version": "0.0.0",
+    "filename": "route/api.js",
+    "groupTitle": "monit",
+    "name": "PostMonitFrpmonit"
+  },
+  {
+    "type": "post",
+    "url": "/monit/rpiMonit",
+    "title": "获取树莓派运行状态",
+    "group": "monit",
+    "version": "0.0.0",
+    "filename": "route/api.js",
+    "groupTitle": "monit",
+    "name": "PostMonitRpimonit"
   },
   {
     "type": "post",

@@ -1,27 +1,33 @@
 //  连接数据库
 const mongoose = require('mongoose')
+const colors = require('colors');
 const url = 'mongodb://localhost:27017/magic-of-life-db'
+const log = require("../utils/log");
+
 mongoose.connect(url,{ useNewUrlParser: true,useUnifiedTopology: true})
 
 mongoose.connection.on('connected', function () {
-  console.log('Mongoose connection open success ');
+  let logs = '[app][mongoose] Mongoose connection open success'
+  log.info(logs)
+  console.log(colors.green(logs))
 });
 
 /**
 * 连接异常rs
 */
 mongoose.connection.on('error',function (err) {
-  console.log('Mongoose connection error: ' + err);
+  let logs = '[app][mongoose] Mongoose connection error: '+err
+  log.error(logs)
+  console.log(colors.red(logs))
 });
 
 /**
 * 连接断开
 */
 mongoose.connection.on('disconnected', function (err) {
-  console.log('Mongoose connection disconnected : ' + err);
+  let logs = '[app][mongoose] Mongoose disconnected: '+err
+  log.warn(logs)
+  console.log(colors.yellow(logs))
 })
 
 module.exports = mongoose;
-//连接数据库
-
-// db.createUser({user:'magic',pwd:'magic161718',roles:['root']})

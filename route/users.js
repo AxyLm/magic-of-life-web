@@ -4,6 +4,8 @@ const {routers,authRoules,roles,users} =require('../db/model/users')
 // const {routerList,authRoute,roles} = require('./route.js')
 const rolesModel = roles
 const {roleGetRouter} = require('../utils/Auth')
+const logs = require('../utils/log')
+
 /**
  * @api {post} /users/getAuthRouter 根据权限获取相应路由
  * @apiGroup userInfo
@@ -11,6 +13,7 @@ const {roleGetRouter} = require('../utils/Auth')
  */
 Router.post('/getAuthRouter',(req,res)=>{
     try {
+        logs.info('[/getAuthRouter] ',req.body)
         let role = req.body.role
         roleGetRouter(role)
         .then((data)=>{
@@ -23,9 +26,10 @@ Router.post('/getAuthRouter',(req,res)=>{
     } catch (error) {
         res.send({code:-1,msg:'运行异常'})
     }
-}) 
+})
 Router.post('/queryRouter',(req,res)=>{
 try {
+    logs.info('[/queryRouter] ',req.body)
     let {node} = req.body
 
     let router = routers.findOne({_id:node.id})
@@ -71,6 +75,7 @@ try {
  */
 Router.post('/addroute',(req,res)=>{
 try {
+    logs.info('[/addroute] ',req.body)
     let {title,route,path,icon,component,parent,visibleRoles,sequence} = req.body
     if(!parent && component !== 'Layout'){
         res.send({code:102,msg:'根组件的compoent需指向框架Layout'})
@@ -133,6 +138,7 @@ try {
  */
 Router.post('/delrouter',(req,res)=>{
 try {
+    logs.info('[/delrouter] ',req.body)
     let id = req.body.routerId
     if(!id){
         res.send({code:300,msg:'缺少参数'})
@@ -164,6 +170,7 @@ try {
  */
 Router.post('/updateRoute',(req,res)=>{
 try {
+    logs.info('[/updateRoute] ',req.body)
     let id = req.body.id
     let {component,icon,path,route,title,visibleRoles} = req.body
     routers.findByIdAndUpdate(id,{component,icon,path,route,title,visibleRoles})
@@ -190,7 +197,7 @@ try {
  */
 Router.post('/getrole',(req,res)=>{
     try {
-        
+        logs.info('[/getrole] ',req.body)
         rolesModel.find({},{_id:0})
         .then((data)=>{
             if(data){
@@ -224,6 +231,7 @@ Router.post('/getrole',(req,res)=>{
  */
 Router.post('/addrole',(req,res)=>{
     try {
+        logs.info('[/addrole] ',req.body)
         let {code,name,roles} = req.body
         rolesModel.findOne({code})
         .then((data)=>{

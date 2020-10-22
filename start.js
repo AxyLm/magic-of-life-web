@@ -1,43 +1,41 @@
-const app = require('express')()
-const path=require('path')
 const express = require('express')
-const Router = express.Router()
-const exStatic = require("express-static")
-const db = require('./db/connect')
-const bodyParser = require('body-parser')
-const cors=require('cors')
-const initShell = require('./bin/doc')
-const {SERVER_NAME,SERVER_PORT} = require('./config/main')
-var jsonParser = bodyParser.json()//解析json
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
-//通过cors 解决跨域
+const db = require('./db/connect')
+const app = express()
+const path = require('path')
+const cors = require('cors')
+const colors = require('colors');
+const timeout = require('connect-timeout')
+const log4js = require('log4js');
+const bodyParser = require('body-parser')
+
+const initShell = require('./bin/doc')
+const log = require("./utils/log");
+const {SERVER_NAME,SERVER_PORT} = require('./config/main')
+
+app.use(bodyParser.json());
+// app.use(timeout('30s'))
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors())
+app.use(log4js.connectLogger(log4js.getLogger("request"), {level: log4js.levels.INFO}));
 
 const users = require('./route/users')
 const login = require('./route/login')
 const divers = require('./route/divers')
 const api = require('./route/api')
 // initShell
-app.use('/soulfree/login',(req,res,next)=>{
-  if(req['headers'].sig = 'magicLife'){
-    next()
-  }else{
-    res.send(404)
-  }
-},login)
-app.use('/users',users)
 
-/**
- * 娱乐
- */
+
+app.use('/user',login)
+app.use('/users',users) // 缺少权限控制
 app.use('/soulfree',divers)
-app.use('/soulfree/api',api)
+app.use('/monit',api)
 
 app.use('/',express.static(path.join(__dirname,'./static/apidoc'))) // 接口文档页
 app.use('/public',express.static(path.join(__dirname,'./static/media'))) // 静态目录
 
+
 app.listen(SERVER_PORT,()=>{
-  console.log(SERVER_NAME,'start：http://localhost:'+SERVER_PORT)
+  log.info('[app] start success')
+  console.log(colors.green('[app] start success：http://localhost:'+SERVER_PORT))
 })

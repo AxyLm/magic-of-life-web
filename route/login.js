@@ -6,7 +6,7 @@ const EncryptUtil = require('../utils/EncryptUtil')
 const {roleGetRouter} = require('../utils/Auth')
 const DeepClone = require('../utils/cs')
 const Jwt = require('../utils/jwt')
-
+const logs = require('../utils/log')
 
 /**
  * @api {post} /user/login  用户登录
@@ -24,12 +24,12 @@ const Jwt = require('../utils/jwt')
   *        route:[]
   *      }
   *     }
- * @apiSampleRequest http://localhost:9999/user/login
- * 
+  * @apiSampleRequest /user/login
  */
 Router.post('/login',(req,res)=>{
-try {
-  let {username,password}=req.body
+  try {
+    logs.info('[/login] ',req.body)
+    let {username,password}=req.body
   if(!username || !password){
     res.send({code:104,msg:'缺少参数'})
   }
@@ -45,19 +45,23 @@ try {
           let token=EncryptUtil.md5Set( Jwt.creatToken(username,6000) ) 
           roleGetRouter(data.role)
           .then((data)=>{
+            logs.info('[/login] {',username+'}登录成功')
             res.send({code:0,msg :'登录成功',data:{...userInfo,...data.role,token,route:data.tree}})
           })
           .catch((err)=>{
             res.send({code:103,msg :err,data:userInfo})
           })
     	}else{
+        logs.warn('[/login] {',username,encryptPs+'}用户名或密码错误')
     		res.send({code:107,msg : '用户名或密码错误',data:null})
     	}
     }else{
+      logs.warn('[/login]','{',username,'}用户不存在')
       res.send({code:102,msg : '用户不存在',data:null})
     }
   })
 	.catch((err)=>{
+    logs.error('[/login]',err)
     console.log(err)
 		return res.send({code:101,msg:'运行异常'})
 	})
@@ -72,6 +76,8 @@ Router.post('/sig',(req,res)=>{
   console.log(aes)
   res.status().send(aes,sig)
 })
+
+
 /**
  * @api {post} /user/reg  用户注册
  * @apiGroup User
@@ -86,15 +92,15 @@ Router.post('/sig',(req,res)=>{
           password:password,
         }
       }
- * @apiSampleRequest http://localhost:9999/user/reg
+ * @apiSampleRequest /user/reg
  */
 Router.post('/reg',(req,res)=>{
   try {
+    logs.info('[/reg] ',req.body)
     if(!req.body.role){
       req.body.role = 'guest' // 默认访客
     }
     let  {username, password,role,uId} = req.body
-    
     // 判断参数是否正确
     users.find({usersName:username})
     .then((data)=>{
@@ -109,6 +115,7 @@ Router.post('/reg',(req,res)=>{
           }
           users.insertMany({...info})
           .then((data)=>{
+            logs.info('[/reg]','{',username,role,'}注册成功')
             res.send({
                 code:0,
                 msg:'注册成功',
@@ -116,14 +123,16 @@ Router.post('/reg',(req,res)=>{
               })
           })
           .catch((err)=>{
+            logs.warn('[/reg]','{',username,'}注册失败')
             res.send({code:-1,msg:'注册失败'})
           })
       }else{
+        logs.warn('[/reg]','{',username,'}用户名已存在')
         res.send({code:-3,msg:'用户名已存在'})
       }
-    })  
+    })
     .catch((err)=>{
-      console.log(err)
+      logs.error('[/reg]',err)
       res.send({code:-2,msg:'运行异常'})
     })
   } catch (error) {

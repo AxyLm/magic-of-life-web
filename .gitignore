@@ -106,3 +106,5 @@ dist
 # static
 static/*
 !static/apidoc/
+
+log/
