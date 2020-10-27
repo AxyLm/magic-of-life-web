@@ -1,6 +1,16 @@
 [
   {
     "type": "post",
+    "url": "/api/v1/qrcode",
+    "title": "title",
+    "version": "0.0.0",
+    "filename": "route/publicApi.js",
+    "group": "D:\\Project\\magic-of-life-web\\route\\publicApi.js",
+    "groupTitle": "D:\\Project\\magic-of-life-web\\route\\publicApi.js",
+    "name": "PostApiV1Qrcode"
+  },
+  {
+    "type": "post",
     "url": "/user/getrole",
     "title": "获取所有角色",
     "version": "0.0.0",
@@ -135,7 +145,7 @@
     "title": "获取frp服务端状态",
     "group": "monit",
     "version": "0.0.0",
-    "filename": "route/api.js",
+    "filename": "route/monit.js",
     "groupTitle": "monit",
     "name": "PostMonitFrpmonit"
   },
@@ -145,7 +155,7 @@
     "title": "获取树莓派运行状态",
     "group": "monit",
     "version": "0.0.0",
-    "filename": "route/api.js",
+    "filename": "route/monit.js",
     "groupTitle": "monit",
     "name": "PostMonitRpimonit"
   },

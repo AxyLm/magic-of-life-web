@@ -23,14 +23,16 @@ app.use(log4js.connectLogger(log4js.getLogger("request"), {level: log4js.levels.
 const users = require('./route/users')
 const login = require('./route/login')
 const divers = require('./route/divers')
-const api = require('./route/api')
+const monit = require('./route/monit')
+const publicApi = require('./route/publicApi')
 // initShell
 
 
 app.use('/user',login)
 app.use('/users',users) // 缺少权限控制
 app.use('/soulfree',divers)
-app.use('/monit',api)
+app.use('/monit',monit)
+app.use('/api/v1',publicApi)
 
 app.use('/',express.static(path.join(__dirname,'./static/apidoc'))) // 接口文档页
 app.use('/public',express.static(path.join(__dirname,'./static/media'))) // 静态目录
