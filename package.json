@@ -5,6 +5,7 @@
   "main": "start.js",
   "scripts": {
     "start": "nodemon start.js -i ./static/apidoc/",
+    "online": "node start.js ",
     "test": "nodemon test.js",
     "build": "pkg -t node12-win --out-path=dist/ package.json",
     "apidoc": "apidoc -i route/ -o static/apidoc/"

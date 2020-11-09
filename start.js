@@ -47,6 +47,7 @@ server.on('listening', function () {
 })
 server.on('error', function (err) {
   if (err.code === 'EADDRINUSE') {
-    log.error('[app] 端口被占用',SERVER_PORT)
+    log.error('[app] 端口被占用', SERVER_PORT)
+    console.log(colors.red('[app] error port：http://localhost:' + SERVER_PORT))
   }
 })
