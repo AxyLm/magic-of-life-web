@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "node后台",
   "main": "start.js",
+  "script":"start.js",
   "scripts": {
     "start": "nodemon start.js -i ./static/apidoc/",
     "online": "node start.js ",
