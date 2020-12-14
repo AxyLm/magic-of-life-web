@@ -3,15 +3,17 @@ const path = require('path');
 
 const config = {
     "appenders": {
-        "consoleout": {
-            "type": "file",
-            "filename": "./log/app.log"
+        "dataFile":{
+            "type": "dateFile",
+            "filename": path.join(__dirname, '../log/app.log'),
+            "maxLogSize": 50 * 1024 * 1024,
+            "pattern": "-yyyy-MM-dd.log"
         }
     },
     "categories": {
         "default": {
             "appenders": [
-                "consoleout"
+                "dataFile"
             ],
             "level": "debug"
         }

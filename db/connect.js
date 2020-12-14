@@ -1,7 +1,9 @@
 //  连接数据库
 const mongoose = require('mongoose')
 const colors = require('colors');
-const url = 'mongodb://localhost:27017/magic-of-life-db'
+const config = require('../config/main.js');
+
+const url = config.dbclient
 const log = require("../utils/log");
 
 mongoose.connect(url,{ useNewUrlParser: true,useUnifiedTopology: true})

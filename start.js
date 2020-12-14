@@ -1,5 +1,7 @@
 const express = require('express')
 
+const env = process.argv[2] || 'dev'
+global.appenv = env
 const db = require('./db/connect')
 const app = express()
 const net = require('net')
@@ -11,7 +13,8 @@ const log4js = require('log4js');
 const bodyParser = require('body-parser')
 
 const initShell = require('./bin/doc')
-const log = require("./utils/log");
+const log = require("./utils/log.js");
+log.info('[app] env:',env)
 const {SERVER_NAME,SERVER_PORT} = require('./config/main')
 
 app.use(bodyParser.json());
