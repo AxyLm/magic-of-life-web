@@ -25,10 +25,12 @@ const login = require('./route/login')
 const divers = require('./route/divers')
 const monit = require('./route/monit')
 const publicApi = require('./route/publicApi')
+const file = require('./route/File/file')
 // initShell
 
 
 app.use('/user',login)
+app.use('/file',file)
 app.use('/users',users) // 缺少权限控制
 app.use('/soulfree',divers)
 app.use('/monit',monit)

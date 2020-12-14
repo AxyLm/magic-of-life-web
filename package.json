@@ -22,6 +22,7 @@
     "express": "^4.17.1",
     "express-generator": "^4.16.1",
     "express-static": "^1.2.6",
+    "jpeg-exif": "^1.1.4",
     "jsonwebtoken": "^8.5.1",
     "log4js": "^6.3.0",
     "mongoose": "^5.9.20",

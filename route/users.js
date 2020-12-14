@@ -236,7 +236,7 @@ Router.post('/addrole',(req,res)=>{
         rolesModel.findOne({code})
         .then((data)=>{
             if(data){
-                res.send({code:-2,msg:'code重复'}) 
+                res.send({code:-2,msg:'code重复'})
             }else{
                 rolesModel.insertMany({code,name,roles})
                 .then((data)=>{
@@ -252,9 +252,8 @@ Router.post('/addrole',(req,res)=>{
         })
     } catch (error) {
         console.log(console.log(error))
-        res.send({code:-1,msg:'运行异常'}) 
+        res.send({code:-1,msg:'运行异常'})
     }
-    
 })
 
 module.exports=Router
