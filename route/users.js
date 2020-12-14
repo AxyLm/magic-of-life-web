@@ -194,6 +194,7 @@ try {
 })
 /**
  * @api {post} /user/getrole 获取所有角色
+ * @apiGroup userInfo
  */
 Router.post('/getrole',(req,res)=>{
     try {

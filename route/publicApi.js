@@ -6,6 +6,7 @@ const pm2 = require('pm2')
 
 /**
  * @api {post} /api/v1/qrcode title
+ * @apiGroup public
  */
 
 Router.post('/qrcode',(req,res)=>{
