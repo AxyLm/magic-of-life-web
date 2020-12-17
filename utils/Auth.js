@@ -1,4 +1,5 @@
 const {routers,authRoules,roles,users} =require('../db/model/users')
+const log = require("./log.js");
 
 
 function roleGetRouter(role){
@@ -13,16 +14,33 @@ function roleGetRouter(role){
                 // authRoules.find({})
                 roles.findOne({roles:role})
                 .then((data)=>{
+                    console.log(role)
                     let {name,roles} = data
-                    authRoules.find({visibleRoles:{$regex:data.code}}).sort({"sequence":1})
-                    .then((auth)=>{
-                        // let list = getAuthRoute(auth,data.code) // 过滤角色权限
-                        let tree = getTree(auth,routerList) // 合并树状路由
-                        res({tree,role:{name,roles}})
-                    })
-                    .catch((err)=>{
-                        rej('查找角色权限失败')
-                    })
+                    if(role === 'admin'){
+                        log.info('{'+role+'}[查询全部路由]')
+                        authRoules.find().sort({"sequence":1})
+                        .then((auth)=>{
+                            // let list = getAuthRoute(auth,data.code) // 过滤角色权限
+                            let tree = getTree(auth,routerList) // 合并树状路由
+                            res({tree,role:{name,roles}})
+                        })
+                        .catch((err)=>{
+                            console.log(err)
+                            rej('查找角色权限失败')
+                        })
+                    }else{
+                        log.info('{'+role+'}[查询路由]')
+                        authRoules.find({visibleRoles:{$regex:data.code}}).sort({"sequence":1})
+                        .then((auth)=>{
+                            // let list = getAuthRoute(auth,data.code) // 过滤角色权限
+                            let tree = getTree(auth,routerList) // 合并树状路由
+                            res({tree,role:{name,roles}})
+                        })
+                        .catch((err)=>{
+                            console.log(err)
+                            rej('查找角色权限失败')
+                        })
+                    }
                 })
                 .catch((err)=>{
                     console.log(err)

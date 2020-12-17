@@ -17,7 +17,7 @@ Router.post('/getAuthRouter',(req,res)=>{
         let role = req.body.role
         roleGetRouter(role)
         .then((data)=>{
-            console.log(data)
+            logs.info('[/getAuthRouter] 路由查询成功'+JSON.stringify(data))
             res.send({code:0,msg :'成功',data:data.tree})
         })
         .catch((err)=>{
