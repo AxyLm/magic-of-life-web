@@ -32,15 +32,16 @@ const file = require('./route/File/file')
 // initShell
 
 
-app.use('/user',login)
-app.use('/file',file)
-app.use('/users',users) // 缺少权限控制
-app.use('/soulfree',divers)
-app.use('/monit',monit)
-app.use('/api/v1',publicApi)
+app.use('/life/user',login)
+app.use('/life/file',file)
+app.use('/life/users',users) // 缺少权限控制
+app.use('/life/soulfree',divers)
+app.use('/life/monit',monit)
+app.use('/life/api/v1',publicApi)
 
-app.use('/',express.static(path.join(__dirname,'./static/apidoc'))) // 接口文档页
-app.use('/public',express.static(path.join(__dirname,'./static/media'))) // 静态目录
+app.use('/life/',express.static(path.join(__dirname,'./public/web'))) // 接口文档页
+app.use('/api/apidoc',express.static(path.join(__dirname,'./static/apidoc'))) // 接口文档页
+app.use('/life/public',express.static(path.join(__dirname,'./static/media'))) // 静态目录
 
 let server = net.createServer().listen(SERVER_PORT)
 server.on('listening', function () {
