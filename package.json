@@ -1,12 +1,13 @@
 {
   "name": "magic-of-life-web",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "node后台",
   "main": "start.js",
   "script":"start.js",
   "scripts": {
-    "start": "nodemon start.js -i ./static/apidoc/",
-    "online": "node start.js ",
+    "start": "npm run dev",
+    "dev":"nodemon start.js dev -i ./static/apidoc/",
+    "online": "node start.js pro",
     "test": "nodemon test.js",
     "build": "pkg -t node12-win --out-path=dist/ package.json",
     "apidoc": "apidoc -i route/ -o static/apidoc/"

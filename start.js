@@ -1,7 +1,6 @@
 const express = require('express')
 
-const env = process.argv[2] || 'dev'
-global.appenv = env
+const config = require('./config/config')
 const db = require('./db/connect')
 const app = express()
 const net = require('net')
@@ -12,11 +11,16 @@ const timeout = require('connect-timeout')
 const log4js = require('log4js');
 const bodyParser = require('body-parser')
 
-const initShell = require('./bin/doc')
+if(process.env.NODE_ENV === "development"){
+  const initShell = require('./bin/doc')
+}
 const log = require("./utils/log.js");
-log.info('[app] env:',env)
-const {SERVER_NAME,SERVER_PORT} = require('./config/main')
+log.info('[app] env:',process.env.NODE_ENV)
+const {SERVER_NAME,SERVER_PORT} = require('./config/config')
 
+
+
+console.log(process.env)
 app.use(bodyParser.json());
 // app.use(timeout('30s'))
 app.use(bodyParser.urlencoded({ extended: false }));

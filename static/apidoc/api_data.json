@@ -1,26 +1,6 @@
 [
   {
     "type": "post",
-    "url": "/api/v1/qrcode",
-    "title": "title",
-    "version": "0.0.0",
-    "filename": "route/publicApi.js",
-    "group": "D:\\Project\\magic-of-life-web\\route\\publicApi.js",
-    "groupTitle": "D:\\Project\\magic-of-life-web\\route\\publicApi.js",
-    "name": "PostApiV1Qrcode"
-  },
-  {
-    "type": "post",
-    "url": "/user/getrole",
-    "title": "获取所有角色",
-    "version": "0.0.0",
-    "filename": "route/users.js",
-    "group": "D:\\Project\\magic-of-life-web\\route\\users.js",
-    "groupTitle": "D:\\Project\\magic-of-life-web\\route\\users.js",
-    "name": "PostUserGetrole"
-  },
-  {
-    "type": "post",
     "url": "/file/upload",
     "title": "文件上传",
     "group": "File",
@@ -181,6 +161,26 @@
     "filename": "route/monit.js",
     "groupTitle": "monit",
     "name": "PostMonitRpimonit"
+  },
+  {
+    "type": "post",
+    "url": "/api/v1/qrcode",
+    "title": "title",
+    "group": "public",
+    "version": "0.0.0",
+    "filename": "route/publicApi.js",
+    "groupTitle": "public",
+    "name": "PostApiV1Qrcode"
+  },
+  {
+    "type": "post",
+    "url": "/user/getrole",
+    "title": "获取所有角色",
+    "group": "userInfo",
+    "version": "0.0.0",
+    "filename": "route/users.js",
+    "groupTitle": "userInfo",
+    "name": "PostUserGetrole"
   },
   {
     "type": "post",

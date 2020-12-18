@@ -1,12 +1,10 @@
 //  连接数据库
 const mongoose = require('mongoose')
 const colors = require('colors');
-const config = require('../config/main.js');
 
-const url = config.dbclient
 const log = require("../utils/log");
 
-mongoose.connect(url,{ useNewUrlParser: true,useUnifiedTopology: true})
+mongoose.connect(process.env.dbclient,{ useNewUrlParser: true,useUnifiedTopology: true})
 
 mongoose.connection.on('connected', function () {
   let logs = '[app][mongoose] Mongoose connection open success'

@@ -1,0 +1,13 @@
+{
+    "name": "magic-life-server",
+    "cwd": "./",
+    "script": "start.js",
+    "args": "dev",
+    "exec_interpreter": "node",
+    "exec_mode": "fork",
+    "min_uptime": "60s",
+    "max_restarts": 30,
+    "error_file": "./log/pm2_err.log",
+    "out_file": "./log/pm2_out.log",
+    "restart_delay": 10
+}
