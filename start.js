@@ -24,6 +24,10 @@ console.log(process.env)
 app.use(bodyParser.json());
 // app.use(timeout('30s'))
 app.use(bodyParser.urlencoded({ extended: false }));
+const corsoption = {
+  "origin": "*",
+  "methods": "*",
+}
 app.use(cors())
 app.use(log4js.connectLogger(log4js.getLogger("request"), {level: log4js.levels.INFO}));
 
@@ -33,6 +37,7 @@ const divers = require('./route/divers')
 const monit = require('./route/monit')
 const publicApi = require('./route/publicApi')
 const file = require('./route/File/file')
+const scripturepavilion = require('./route/scripturepavilion')
 // initShell
 
 
@@ -41,6 +46,7 @@ app.use('/life/file',file)
 app.use('/life/users',users) // 缺少权限控制
 app.use('/life/soulfree',divers)
 app.use('/life/monit',monit)
+app.use('/life/scripturepavilion',scripturepavilion)
 app.use('/life/api/v1',publicApi)
 
 app.use('/life/',express.static(path.join(__dirname,'./public/web'))) // 接口文档页
