@@ -42,7 +42,11 @@ Router.post('/login',(req,res)=>{
             "username":data.usersName,
             "avatar" : data.avatar,
           }
-          let token=EncryptUtil.md5Set( Jwt.creatToken(username,6000) ) 
+          let token=EncryptUtil.md5Set( Jwt.creatToken(username,6000) )
+          if(!data.role){
+            logs.warn('[/login] {',username,'}当前用户未分配角色')
+    		    res.send({code:108,msg : '当前用户未分配角色',data:null})
+          }
           roleGetRouter(data.role)
           .then((data)=>{
             logs.info('[/login] {',username+'}登录成功')
@@ -66,6 +70,7 @@ Router.post('/login',(req,res)=>{
 		return res.send({code:101,msg:'运行异常'})
 	})
 } catch (error) {
+  logs.error('[/login]',{code:400,msg:'系统异常'},error)
   res.send({code:400,msg:'系统异常'})
 }
 })

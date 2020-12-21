@@ -16,7 +16,7 @@ function roleGetRouter(role){
                 .then((data)=>{
                     console.log(role)
                     let {name,roles} = data
-                    if(role === 'admin'){
+                    if(role === process.env.ROUTER_MAIN || 'admin'){
                         log.info('{'+role+'}[查询全部路由]')
                         authRoules.find().sort({"sequence":1})
                         .then((auth)=>{

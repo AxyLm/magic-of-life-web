@@ -3,5 +3,6 @@
     "version": "1.0.0",
     "description": "接口文档",
     "title": "apidoc",
-    "url" : "http://127.0.0.1:9233"
+    "url" : "http://127.0.0.1:9233/life"
 }
+

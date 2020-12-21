@@ -1,4 +1,4 @@
-const shell = 'apidoc -i route/ -o static/apidoc/'
+const shell = 'apidoc -i ../route/ -o ../static/apidoc/'
 const process = require('child_process');
 const {SERVER_PORT} = require('../config/config')
 //生成文档

@@ -13,7 +13,7 @@ Router.post('/qrcode',(req,res)=>{
 
 })
 
-Router.get('/pm2_monit',(req,res)=>{
+Router.post('/pm2_monit',(req,res)=>{
     logs.info('[/api/v1//pm2_monit] request',req.body)
     if (req.body.authToken === 'ad9971d1f97qE11d9f7e') {
         pm2.connect(error=>{
