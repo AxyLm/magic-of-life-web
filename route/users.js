@@ -5,7 +5,6 @@ const {routers,authRoules,roles,users} =require('../db/model/users')
 const rolesModel = roles
 const {roleGetRouter} = require('../utils/Auth')
 const logs = require('../utils/log')
-
 /**
  * @api {post} /users/getAuthRouter 根据权限获取相应路由
  * @apiGroup userInfo
@@ -14,8 +13,12 @@ const logs = require('../utils/log')
 Router.post('/getAuthRouter',(req,res)=>{
     try {
         logs.info('[/getAuthRouter] ',req.body)
-        let role = req.body.role
-        roleGetRouter(role)
+        let {role,flag} = req.body
+        if(!role){
+            res.send({code:-2,msg:'缺少参数'})
+            return
+        }
+        roleGetRouter(role,flag)
         .then((data)=>{
             logs.info('[/getAuthRouter] 路由查询成功'+JSON.stringify(data))
             res.send({code:0,msg :'成功',data:data.tree})
@@ -30,10 +33,10 @@ Router.post('/getAuthRouter',(req,res)=>{
 Router.post('/queryRouter',(req,res)=>{
 try {
     logs.info('[/queryRouter] ',req.body)
-    let {node} = req.body
+    let {id,parent} = req.body
 
-    let router = routers.findOne({_id:node.id})
-    let auth = authRoules.findOne({routerId:node.id})
+    let router = routers.findOne({_id:id})
+    let auth = authRoules.findOne({routerId:id})
     Promise.all([router,auth])
     .then((promises)=>{
         let routerData = promises[0]
@@ -41,8 +44,8 @@ try {
 
         let {component,icon,path,route,title,_id} = routerData
         let routeData = {component,icon,path,route,title,id:_id}
-        if(node.parent){
-            routers.findOne({_id:node.parent})
+        if(parent){
+            routers.findOne({_id:parent})
             .then((parent)=>{
                 let parentData = {
                     title:parent.title,

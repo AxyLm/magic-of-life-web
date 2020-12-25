@@ -2,7 +2,7 @@ const {routers,authRoules,roles,users} =require('../db/model/users')
 const log = require("./log.js");
 
 
-function roleGetRouter(role){
+function roleGetRouter(role,flag){
     return new Promise((res,rej)=>{
         try {
             if(!role){
@@ -21,7 +21,7 @@ function roleGetRouter(role){
                         authRoules.find().sort({"sequence":1})
                         .then((auth)=>{
                             // let list = getAuthRoute(auth,data.code) // 过滤角色权限
-                            let tree = getTree(auth,routerList) // 合并树状路由
+                            let tree = getTree(flag,auth,routerList) // 合并树状路由
                             res({tree,role:{name,roles}})
                         })
                         .catch((err)=>{
@@ -33,7 +33,7 @@ function roleGetRouter(role){
                         authRoules.find({visibleRoles:{$regex:data.code}}).sort({"sequence":1})
                         .then((auth)=>{
                             // let list = getAuthRoute(auth,data.code) // 过滤角色权限
-                            let tree = getTree(auth,routerList) // 合并树状路由
+                            let tree = getTree(flag,auth,routerList) // 合并树状路由
                             res({tree,role:{name,roles}})
                         })
                         .catch((err)=>{
@@ -60,7 +60,7 @@ function roleGetRouter(role){
  * @param {string} sid 
  * @param {string} parent 
  */
-function getTree(data = [],routerList, sid, parent = null) {
+function getTree(flag,data = [],routerList, sid, parent = null) {
     const children = [];
     for (const i in data) {
         const node = data[i];
@@ -68,10 +68,17 @@ function getTree(data = [],routerList, sid, parent = null) {
             let {title,route,path,icon,component} = getRouter(routerList,node.routerId,'_id')
             let id = node.routerId
             let {parent,sequence} = node
-            children.push({
-                title,route,path,icon,component,sequence,slots:({parent,id}),scopedSlots:({title:'change'}),
-                children: getTree(data,routerList, sid, node.routerId)
-            });
+            if(flag && flag == 1){
+                children.push({
+                    title,route,path,icon,component,sequence,parent,id,scopedSlots:({title: 'change'}),
+                    children: getTree(flag,data,routerList, sid, node.routerId)
+                });
+            }else{
+                children.push({
+                    title,route,path,icon,component,sequence,parent,id,
+                    children: getTree(flag,data,routerList, sid, node.routerId)
+                });
+            }
         }
     }
     return children.length ? children : null;
