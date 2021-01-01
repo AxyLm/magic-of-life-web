@@ -42,7 +42,6 @@ Router.post('/login',(req,res)=>{
             "username":data.usersName,
             "avatar" : data.avatar,
           }
-          let token=EncryptUtil.md5Set( Jwt.creatToken(username,6000) )
           if(!data.role){
             logs.warn('[/login] {',username,'}当前用户未分配角色')
     		    res.send({code:108,msg : '当前用户未分配角色',data:null})
@@ -50,7 +49,16 @@ Router.post('/login',(req,res)=>{
           roleGetRouter(data.role)
           .then((data)=>{
             logs.info('[/login] {',username+'}登录成功')
-            res.send({code:0,msg :'登录成功',data:{...userInfo,...data.role,token,route:data.tree}})
+            let resInfo = {
+              ...userInfo,
+              ...data.role
+            }
+            let token = ( Jwt.creatToken(resInfo,6000) )
+            res.send({
+              code:0,
+              msg :'登录成功',
+              data:{...resInfo , token }
+            })
           })
           .catch((err)=>{
             res.send({code:103,msg :err,data:userInfo})

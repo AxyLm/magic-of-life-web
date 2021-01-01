@@ -1,6 +1,7 @@
 const {routers,authRoules,roles,users} =require('../db/model/users')
 const log = require("./log.js");
-
+const {checkToken} = require('./jwt')
+const EncryptUtil = require('./EncryptUtil')
 
 function roleGetRouter(role,flag){
     return new Promise((res,rej)=>{
@@ -65,17 +66,17 @@ function getTree(flag,data = [],routerList, sid, parent = null) {
     for (const i in data) {
         const node = data[i];
         if ( ( (!parent && !node.parent) || node.parent === parent) && node.routerId !== sid ) {
-            let {title,route,path,icon,component} = getRouter(routerList,node.routerId,'_id')
+            let {title,route,path,icon,component,type} = getRouter(routerList,node.routerId,'_id')
             let id = node.routerId
             let {parent,sequence} = node
             if(flag && flag == 1){
                 children.push({
-                    title,route,path,icon,component,sequence,parent,id,scopedSlots:({title: 'change'}),
+                    title,route,type,path,icon,component,sequence,parent,id,scopedSlots:({title: 'change'}),
                     children: getTree(flag,data,routerList, sid, node.routerId)
                 });
             }else{
                 children.push({
-                    title,route,path,icon,component,sequence,parent,id,
+                    title,route,type,path,icon,component,sequence,parent,id,
                     children: getTree(flag,data,routerList, sid, node.routerId)
                 });
             }
@@ -142,6 +143,31 @@ function bubbleSort(arr,key) {
 function getAuth(){
 
 }
+
+
+
+function validateAuth(req,res,next){
+    let token = req.headers["authorization"]
+    if( token ){
+        checkToken(token)
+        .then(res=>{
+            if(res.iat > res.exp){
+                res.send({code:4997,msg:'token过期'})
+            }else{
+                req.body = {
+                    ...req.body,
+                    ...res.data
+                }
+                next()
+            }
+        }).catch((err)=>{
+            res.send({code:4996,msg:'权限异常'})
+        })
+    }else{
+        res.send({code:4998,msg:'无权限'})
+    }
+}
 module.exports = {
     roleGetRouter,
+    validateAuth
 }

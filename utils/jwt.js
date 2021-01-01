@@ -13,12 +13,16 @@ function creatToken(data = {}, ) {
 }
 
 function checkToken(token) {
-
 	return new Promise((resovle, reject) => {
 		jwt.verify(token, scrict, (err, data) => {
 			if(err) {
 				console.log(err,data,token)
-				reject('token验证失败')
+				reject(
+					{
+						code:9999,
+						msg:'token验证失败'
+					}
+				)
 			} else {
 				resovle(data)
 			}

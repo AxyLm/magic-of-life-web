@@ -13,7 +13,8 @@ const logs = require('../utils/log')
 Router.post('/getAuthRouter',(req,res)=>{
     try {
         logs.info('[/getAuthRouter] ',req.body)
-        let {role,flag} = req.body
+        let {role,flag,roles} = req.body
+        role = role?role:roles
         if(!role){
             res.send({code:-2,msg:'缺少参数'})
             return
@@ -42,8 +43,8 @@ try {
         let routerData = promises[0]
         let authData = promises[1]
 
-        let {component,icon,path,route,title,_id} = routerData
-        let routeData = {component,icon,path,route,title,id:_id}
+        let {component,icon,path,type,route,title,_id} = routerData
+        let routeData = {component,type,icon,path,route,title,id:_id}
         if(parent){
             routers.findOne({_id:parent})
             .then((parent)=>{
@@ -175,14 +176,14 @@ Router.post('/updateRoute',(req,res)=>{
 try {
     logs.info('[/updateRoute] ',req.body)
     let id = req.body.id
-    let {component,icon,path,route,title,visibleRoles} = req.body
-    routers.findByIdAndUpdate(id,{component,icon,path,route,title,visibleRoles})
+    let {component,icon,path,route,title,visibleRoles,type} = req.body
+    routers.findByIdAndUpdate(id,{component,type,icon,path,route,title,visibleRoles})
     .then((data)=>{
-        let {component,icon,path,route,title,visibleRoles} = data
+        let {component,icon,path,route,title} = data
 
         let {sequence,parent} = req.body
-        if( sequence || parent ){
-            authRoules.findOneAndUpdate({routerId:id},{sequence,parent})
+        if( sequence || parent || visibleRoles ){
+            authRoules.findOneAndUpdate({routerId:id},{sequence,parent,visibleRoles})
             .then((auth)=>{
                 let {sequence,parent} = auth
                 res.send({code:0,data:{component,icon,path,route,title,visibleRoles,sequence,parent},msg:'成功'})
