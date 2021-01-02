@@ -13,7 +13,7 @@ const config = {
         NODE_ENV: "production",
         SERVER_NAME:"magic-of-life-web",
         SERVER_PORT:"9233",
-        dbclient:"mongodb://localhost:27018/magic-of-life-db",
+        dbclient:"mongodb://localhost:27017/magic-of-life-db",
         ROUTER_MAIN:"admin"
     }
 }
