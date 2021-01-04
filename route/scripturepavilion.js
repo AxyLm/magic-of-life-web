@@ -16,9 +16,18 @@ let common = require('../utils/common.js')
  * @apiParam {String} name  名称
  * @apiParam {String} fileInfo  文件详情
  *  @apiSuccessExample {json} 返回实列:
-*     
-{"code":"0","msg":"请求完成!","data":{"path":"/public/scripturepavilion/1580221329533-5937.EXE","originalname":"BANDIZIP-SETUP.EXE","filename":"1580221329533-5937.EXE","size":6545512}}
- * 
+*
+{
+    "code":"0",
+    "msg":"请求完成!",
+    "data":{
+        "path":"/public/scripturepavilion/1580221329533-5937.EXE",
+        "originalname":"BANDIZIP-SETUP.EXE",
+        "filename":"1580221329533-5937.EXE",
+        "size":6545512
+    }
+}
+ *
  */
 Router.post('/infoSave',(req,res)=>{
     let {fileType,name,fileInfo} = req.body
@@ -97,9 +106,6 @@ Router.post('/getInfoList',(req,res)=>{
  * @apiGroup scripture
  *
  * @apiParam {String} id  id.
- *  @apiSuccessExample {json} 返回实列:
-*     
- * 
  */
 
 Router.post('/del',(req,res)=>{
@@ -129,8 +135,7 @@ Router.post('/del',(req,res)=>{
  *
  * @apiParam {String} path  文件夹路径.
  *  @apiSuccessExample {json} 返回实列:
-*     
-{
+*{
     "code": "0",
     "msg": "请求完成!",
     "data": [
@@ -141,7 +146,7 @@ Router.post('/del',(req,res)=>{
         }
     }
 }
- * 
+ *
  */
 Router.put('/getFileList',(req,res)=>{
     let {path} = req.body
@@ -172,7 +177,6 @@ let storage = multer.diskStorage({
 
     let exts=file.originalname.split('.')
     let ext=exts[exts.length-1]
-    
     let tmpname=(new Date()).getTime()+'-'+parseInt(Math.random()*9999)
 		cb(null, `${tmpname}.${ext}`);
 	}
@@ -185,7 +189,7 @@ let upload = multer({
  * @apiGroup File
  *
  * @apiParam {String} file  file.
- * 
+ *
  */
 Router.post('/upload',upload.single('scrpture'),(req,res)=>{
     let types=['exe','zip','rar','msi','EXE'] //允许上传的数据类型
@@ -202,15 +206,13 @@ Router.post('/upload',upload.single('scrpture'),(req,res)=>{
       path.size = req.file.size
       res.send({code:0,msg:'ok',data:path})
     }
-    
-   
   })
 
 /**
  * @api {post} /scripture/getList  文档引用
  * @apiGroup File
  *
- * 
+ *
  */
 Router.post('/getList',(req,res)=>{
     let { name } = req.body

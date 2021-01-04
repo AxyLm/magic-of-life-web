@@ -160,7 +160,7 @@ function validateAuth(req,res,next){
                 }
                 next()
             }
-        }).catch((err)=>{
+        }).catch((err) => {
             res.send({code:4996,msg:'权限异常'})
         })
     }else{

@@ -16,7 +16,6 @@ function checkToken(token) {
 	return new Promise((resovle, reject) => {
 		jwt.verify(token, scrict, (err, data) => {
 			if(err) {
-				console.log(err,data,token)
 				reject(
 					{
 						code:9999,

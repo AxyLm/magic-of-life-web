@@ -4,7 +4,7 @@ const colors = require('colors');
 
 const log = require("../utils/log");
 
-mongoose.connect(process.env.dbclient,{ useNewUrlParser: true,useUnifiedTopology: true})
+mongoose.connect(process.env.DB_CLIENT,{ useNewUrlParser: true,useUnifiedTopology: true})
 
 mongoose.connection.on('connected', function () {
   let logs = '[app][mongoose] Mongoose connection open success'
