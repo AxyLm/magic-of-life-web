@@ -10,7 +10,17 @@ const config = {
         DB_CLIENT:"mongodb://localhost:27017/magic-of-life-db",
         ROUTER_MAIN: "admin",  // 管理员账号 ，可以查询所有路由
         GLANSEURL: "http://gweb.frp.soulfree.cn/api/3/all",
-        FRP_MONIT: "http://admin.frp.soulfree.cn/api"
+        FRP_MONIT: "http://admin.frp.soulfree.cn/api",
+        FrpAuth: {
+            username: 'admin',
+            password: '123456'
+        },
+        eMail: {
+            host: "smtp.qq.com",
+            port: 465,
+            user: 'awm3@vip.qq.com',
+            pass: 'kyrsifqbiocxcade'
+        }
     },
     "pro":{
         NODE_ENV: "production",
@@ -20,7 +30,17 @@ const config = {
         DB_CLIENT:"mongodb://localhost:27017/magic-of-life-db",
         ROUTER_MAIN: "admin",
         GLANSEURL: "http://gweb.frp.soulfree.cn/api/3/all",
-        FRP_MONIT: "http://admin.frp.soulfree.cn/api"
+        FRP_MONIT: "http://admin.frp.soulfree.cn/api",
+        FrpAuth: {
+            username: 'admin',
+            password: '123456'
+        },
+        eMail: {
+            host: "smtp.qq.com",
+            port: 465,
+            user: 'awm3@vip.qq.com',
+            pass: 'kyrsifqbiocxcade'
+        }
     }
 }
 process.env = {

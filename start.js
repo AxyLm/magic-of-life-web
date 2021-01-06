@@ -10,7 +10,7 @@ const colors = require('colors');
 const timeout = require('connect-timeout')
 const log4js = require('log4js');
 const bodyParser = require('body-parser')
-
+const jobStart = require("./system/method/jobStart")
 if(process.env.NODE_ENV === "development"){
   //const initShell = require('./bin/doc')
 }
@@ -25,7 +25,9 @@ const corsoption = {
 }
 app.use(cors())
 
-/**  */
+/** 定时任务 */
+jobStart()
+
 app.use(log4js.connectLogger(log4js.getLogger("request"), {level: log4js.levels.INFO}));
 router.init(app)
 app.use('/life/',express.static(path.join(__dirname,'./public/web'))) // 接口文档页

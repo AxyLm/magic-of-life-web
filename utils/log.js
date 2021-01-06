@@ -7,7 +7,6 @@ const config = {
             "type": "dateFile",
             "filename": path.join(__dirname, '../log/app.log'),
             "maxLogSize": 50 * 1024 * 1024,
-            "pattern": "-yyyy-MM-dd.log"
         }
     },
     "categories": {

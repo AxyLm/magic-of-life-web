@@ -27,7 +27,7 @@ const nodemailer = require("nodemailer");
           //  console.log(err)
           //  console.log(data)
             if(err){
-              reject()
+              reject(err)
             }else{
               resolve()
             }
