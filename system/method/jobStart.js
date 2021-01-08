@@ -9,7 +9,7 @@ module.exports = function() {
     scheduleJob.startJob('0 0 * * * *', function () {
         frpTrafficInsert(new Date(), "h")
     })
-    scheduleJob.startJob('0 0 2 * * *', function () {
+    scheduleJob.startJob('0 55 23 * * *', function () {
         frpTrafficInsert(new Date(), 'd')
     } )
 }
