@@ -4,7 +4,8 @@ const mongoose=require('mongoose')
  * 用户信息
  */
 const userSchema = new mongoose.Schema({
-  usersName:{type:String,required:true}, 
+  usersName:{type:String,required:true},
+  account:{type:String,require:false},
   uId:{type:String,required:true},
   passWord:{type:String,required:true},
   role:{type:String,required:true}, // 角色

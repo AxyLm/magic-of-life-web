@@ -13,17 +13,18 @@ function roleGetRouter(role,flag){
             .then((data)=>{
                 let routerList = bubbleSort(data)
                 // authRoules.find({})
-                roles.findOne({roles:role})
+                roles.findOne({roles:role},'-_id roles name')
                 .then((data)=>{
-                    console.log(role)
-                    let {name,roles} = data
+                    if(!data){
+                        rej('该用户未分配角色或角色不存在')
+                    }
                     if(role === process.env.ROUTER_MAIN || 'admin'){
                         log.info('{'+role+'}[查询全部路由]')
                         authRoules.find().sort({"sequence":1})
                         .then((auth)=>{
                             // let list = getAuthRoute(auth,data.code) // 过滤角色权限
                             let tree = getTree(flag,auth,routerList) // 合并树状路由
-                            res({tree,role:{name,roles}})
+                            res({tree,role:data})
                         })
                         .catch((err)=>{
                             console.log(err)
@@ -35,7 +36,7 @@ function roleGetRouter(role,flag){
                         .then((auth)=>{
                             // let list = getAuthRoute(auth,data.code) // 过滤角色权限
                             let tree = getTree(flag,auth,routerList) // 合并树状路由
-                            res({tree,role:{name,roles}})
+                            res({tree,role:data})
                         })
                         .catch((err)=>{
                             console.log(err)
@@ -154,8 +155,7 @@ function validateAuth(req,res,next){
             if(res.iat > res.exp){
                 res.send({code:4997,msg:'token过期'})
             }else{
-                req.body = {
-                    ...req.body,
+                req.body.userAuth = {
                     ...res.data
                 }
                 next()

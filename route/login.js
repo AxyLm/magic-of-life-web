@@ -48,11 +48,14 @@ Router.post('/login',(req,res)=>{
           }
           roleGetRouter(data.role)
           .then((data)=>{
+            console.log(data)
             logs.info('[/login] {',username+'}登录成功')
             let resInfo = {
               ...userInfo,
-              ...data.role
+              name: data.role.name || null,
+              roles: data.role.roles || null,
             }
+            logs.info(resInfo)
             let token = ( Jwt.creatToken(resInfo,6000) )
             res.send({
               code:0,
@@ -61,6 +64,7 @@ Router.post('/login',(req,res)=>{
             })
           })
           .catch((err)=>{
+            logs.warn('[/login] ',err)
             res.send({code:103,msg :err,data:userInfo})
           })
     	}else{
