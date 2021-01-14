@@ -7,7 +7,7 @@ const logs = require('../../utils/log')
 
 /**
  * @api {post} /monit/queryTraffic 流量统计
- * @apiGroup frp
+ * @apiGroup 系统状态
  * @apiParam {string} usersName
  */
 Router.post('/queryTraffic', (req, res) => {

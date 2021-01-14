@@ -105,6 +105,6 @@ dist
 
 # static
 static/*
-static/apidoc/*
+static/apidoc/
 public/web/
 log/

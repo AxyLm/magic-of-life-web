@@ -8,9 +8,10 @@ const DeepClone = require('../utils/cs')
 const Jwt = require('../utils/jwt')
 const logs = require('../utils/log')
 
+var codes;
 /**
- * @api {post} /user/login  用户登录
- * @apiGroup User
+ * @api {post} /login  用户登录
+ * @apiGroup 登录
  * @apiParam {String} username  用户名.
  * @apiParam {String} password 密码.
  * @apiSuccessExample {json} 返回实列:
@@ -24,7 +25,7 @@ const logs = require('../utils/log')
   *        route:[]
   *      }
   *     }
-  * @apiSampleRequest /user/login
+  * @apiSampleRequest /login
  */
 Router.post('/login',(req,res)=>{
   try {
@@ -96,10 +97,12 @@ Router.post('/sig',(req,res)=>{
 
 
 /**
- * @api {post} /user/reg  用户注册
- * @apiGroup User
+ * @api {post} /reg  用户注册
+ * @apiGroup 登录
+ * @apiVersion 0.0.3
  * @apiParam {String} username  用户名.
  * @apiParam {String} password 密码.
+ * @apiParam {String} role 角色.
  * @apiSuccessExample {json} 返回实列:
  *     {
         code:0,
@@ -109,7 +112,7 @@ Router.post('/sig',(req,res)=>{
           password:password,
         }
       }
- * @apiSampleRequest /user/reg
+ * @apiSampleRequest /reg
  */
 Router.post('/reg',(req,res)=>{
   try {
@@ -161,8 +164,8 @@ Router.post('/reg',(req,res)=>{
 
 
  /**
- * @api {post} /user/getMailCode  发送邮箱验证码
- * @apiGroup User
+ * @api {post} /getMailCode  发送邮箱验证码
+ * @apiGroup 登录
  *
  * @apiParam {String} mail  邮箱
  * @apiSuccessExample {json} 返回实列:
@@ -177,14 +180,15 @@ Router.post('/getMailCode',(req,res)=>{
   let {mail}=req.body
   let code=parseInt(Math.random()*10000)// 产生随机码
 
-
+console.log(code)
   Mail.send(mail,code)
   .then(()=>{
-    codes[mail]=code
+    // codes[mail]=code
     //将邮箱和邮箱匹配的验证码保存到缓存中】
     res.send({code:0,msg:'验证码发送成功'})
   })
-  .catch((err)=>{
+    .catch((err) => {
+    console.log(err)
     res.send({code:-1,msg:'验证码发送失败'})
   })
  

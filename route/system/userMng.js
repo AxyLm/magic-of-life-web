@@ -41,7 +41,14 @@ Router.post('/getUserList', (req, res) => {
 /**
  * @api {post} /user/adduser 添加用户
  * @apiGroup 用户管理
+ * @apiParam {string} account
  * @apiParam {string} usersName
+ * @apiParam {string} password
+ * @apiParam {string} role
+ * @apiParam {string} phone
+ * @apiParam {string} emile
+ * @apiParam {string} avatar
+ * @apiParam {number} uId
  */
 Router.post('/adduser', (req, res) => {
     try {

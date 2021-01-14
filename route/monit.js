@@ -7,7 +7,7 @@ const colors = require('colors');
 
 /**
  * @api {post} /monit/rpiMonit 获取树莓派运行状态
- * @apiGroup monit
+ * @apiGroup 系统状态
  */
 Router.post('/rpiMonit', (req, res) => {
     logs.info('[/rpiMonit] ', req.body)
@@ -25,7 +25,7 @@ Router.post('/rpiMonit', (req, res) => {
 
 /**
  * @api {post} /monit/frpMonit 获取frp服务端状态
- * @apiGroup monit
+ * @apiGroup 系统状态
  */
 Router.post('/frpMonit', (req, res) => {
     logs.info('[/frpMonit] ', req.body)
@@ -54,7 +54,7 @@ Router.post('/frpMonit', (req, res) => {
 
 /**
  * @api {post} /monit/pm2Monit 获取pm2运行状态
- * @apiGroup monit
+ * @apiGroup 系统状态
  */
 var pm2Start = false
 pm2.connect(error => {
@@ -91,7 +91,7 @@ Router.post('/pm2Monit', (req, res) => {
 
 /**
  * @api {post} /monit/pm2/operation 操作pm2进程
- * @apiGroup monit
+ * @apiGroup 系统状态
  */
 Router.post('/pm2/operation', (req, res) => {
     logs.info('[/monit//pm2/operation] request', req.body)

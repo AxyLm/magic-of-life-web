@@ -35,16 +35,17 @@ app.use('/api/apidoc',express.static(path.join(__dirname,'./static/apidoc'))) //
 app.use('/life/public',express.static(path.join(__dirname,'./static/media'))) // 静态目录
 
 let server = net.createServer().listen(process.env.SERVER_PORT)
+let msg = '[app] start success：http://localhost:' + process.env.SERVER_PORT + process.env.BASE_URL
 server.on('listening', function () {
   server.close()
   app.listen(process.env.SERVER_PORT, () => {
     log.info('[app] start success')
-    console.log(colors.green('[app] start success：http://localhost:' + process.env.SERVER_PORT))
+    console.log(colors.green(msg))
   })
 })
 server.on('error', function (err) {
   if (err.code === 'EADDRINUSE') {
     log.error('[app] 端口被占用', process.env.SERVER_PORT)
-    console.log(colors.red('[app] error port：http://localhost:' + process.env.SERVER_PORT))
+    console.log(colors.red(msg))
   }
 })

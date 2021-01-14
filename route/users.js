@@ -7,7 +7,7 @@ const {roleGetRouter} = require('../utils/Auth')
 const logs = require('../utils/log')
 /**
  * @api {post} /users/getAuthRouter 根据权限获取相应路由
- * @apiGroup userInfo
+ * @apiGroup 前端路由
  * @apiParam {String} role
  */
 Router.post('/getAuthRouter',(req,res)=>{
@@ -72,7 +72,7 @@ try {
 
 /**
  * @api {post} /users/addroute 添加路由
- * @apiGroup userInfo
+ * @apiGroup 前端路由
  * @apiParam {String} title
  * @apiParam {String} name
  * @apiParam {String} parent
@@ -138,7 +138,7 @@ try {
 
 /**
  * @api {post} /users/addroute 删除路由
- * @apiGroup userInfo
+ * @apiGroup 前端路由
  * @apiParam {String} routerId
  */
 Router.post('/delrouter',(req,res)=>{
@@ -170,7 +170,7 @@ try {
 
 /**
  * @api {post} /users/updataRouote 更新路由信息
- * @apiGroup userInfo
+ * @apiGroup 前端路由
  * @apiParam {String} id
  */
 Router.post('/updateRoute',(req,res)=>{

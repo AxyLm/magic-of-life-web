@@ -130,8 +130,7 @@ Router.post('/del',(req,res)=>{
 
 /**
  * @api {post} /scripture/getFileList  文件树
-
- * @apiGroup getFileList
+ * @apiGroup scripture
  *
  * @apiParam {String} path  文件夹路径.
  *  @apiSuccessExample {json} 返回实列:

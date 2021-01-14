@@ -1,0 +1,12 @@
+{
+    "name": "magic-of-life-web",
+    "version": "1.1.0",
+    "description": "接口文档",
+    "title": "apidoc",
+    "url": "http://127.0.0.1:9233/life",
+    "sampleUrl": "http://127.0.0.1:9233/life",
+    "template": {
+        "withCompare": true,
+        "withGenerator": false
+    }
+}
