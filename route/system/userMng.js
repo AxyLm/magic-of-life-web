@@ -12,12 +12,13 @@ const userModel = users
 Router.post('/getUserList', (req, res) => {
     try {
         let pageSize = req.body.pageSize || 10 //设置默认值
-        let pageIndex = (typeof req.body.pageIndex) == "number"?req.body.pageIndex : 1
+        let pageIndex = (typeof req.body.pageIndex) == "number" ? req.body.pageIndex : 1
         let count = 0
         users.find({}, '-_id -__v -passWord')
             .then((list) => {
+                console.log(list)
                 count = list.length //获取总的数据条数
-                return users.find({}, '-_id -__v -passWord').limit(Number(pageSize)).skip(Number((pageIndex - 1) * pageSize)).sort({"createTime":1})
+                return users.find({}, '-_id -__v -passWord').limit(Number(pageSize)).skip(Number((pageIndex - 1) * pageSize)).sort({ "createTime": 1 })
             })
             .then((data) => {
                 // res.send({err:0,msg:'查询ok',list:data})
@@ -54,21 +55,22 @@ Router.post('/adduser', (req, res) => {
     try {
         logs.info('[/adduser] ', req.body)
         let { usersName, password, role, phone, emile, avatar, account, uId } = req.body
-        if(!usersName || !password || !role || !uId || !account){
+        if (!usersName || !password || !role || !uId || !account) {
             res.send({ code: -2, msg: '参数错误' })
             return
         }
         let now = (new Date).getTime()
         userModel.insertMany({
             usersName,
-            uId:account,
+            uId: account,
             passWord: EncryptUtil.aesDecrypt(password),
             role,
             phone,
             emile,
             avatar,
             account,
-            createTime: now })
+            createTime: now
+        })
             .then((data) => {
                 res.send({
                     code: 0, msg: '添加成功',

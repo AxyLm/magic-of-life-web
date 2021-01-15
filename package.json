@@ -10,7 +10,7 @@
     "online": "node start.js pro",
     "test": "nodemon test.js",
     "build": "pkg -t node12-win --out-path=dist/ package.json",
-    "apidoc": "apidoc -i route/ -o static/apidoc/ -c config/apidoc.json"
+    "apidoc": "apidoc -i route/ server/route -o static/apidoc/ -c config/apidoc.json"
   },
   "dependencies": {
     "apidoc": "^0.23.0",
@@ -24,6 +24,7 @@
     "express": "^4.17.1",
     "express-generator": "^4.16.1",
     "express-static": "^1.2.6",
+    "joi": "^17.3.0",
     "jpeg-exif": "^1.1.4",
     "jsonwebtoken": "^8.5.1",
     "log4js": "^6.3.0",

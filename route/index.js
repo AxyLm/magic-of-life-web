@@ -1,5 +1,4 @@
 const users = require('./users')
-const login = require('./login')
 const divers = require('./divers')
 const monit = require('./monit')
 const publicApi = require('./publicApi')
@@ -7,6 +6,7 @@ const file = require('./File/file')
 const scripturepavilion = require('./scripturepavilion')
 const { validateAuth } = require('../utils/Auth')
 
+const login = require('../server/route/login')
 const userMng = require('./system/userMng')
 const roleMng = require('./system/roleMng')
 const frpMonit = require('./monit/frp')

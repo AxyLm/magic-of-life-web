@@ -4,7 +4,8 @@ const colors = require('colors');
 
 const log = require("../utils/log");
 
-mongoose.connect("mongodb://localhost:27017/magic-of-life-db", { useNewUrlParser: true, useUnifiedTopology: true })
+const url = process.env.DB_CLIENT
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 // mongoose.connect('mongodb://host1[:port1][,host2[:port2],...[,hostN[:portN]]] [/[database][?options]]' [, options]);
 
 
@@ -17,8 +18,8 @@ mongoose.connection.on('connected', function () {
 /**
 * 连接异常rs
 */
-mongoose.connection.on('error',function (err) {
-  let logs = '[app][mongoose] Mongoose connection error: '+err
+mongoose.connection.on('error', function (err) {
+  let logs = '[app][mongoose] Mongoose connection error: ' + err
   log.error(logs)
   console.log(colors.red(logs))
 });
@@ -27,7 +28,7 @@ mongoose.connection.on('error',function (err) {
 * 连接断开
 */
 mongoose.connection.on('disconnected', function (err) {
-  let logs = '[app][mongoose] Mongoose disconnected: '+err
+  let logs = '[app][mongoose] Mongoose disconnected: ' + err
   log.warn(logs)
   console.log(colors.yellow(logs))
 })
