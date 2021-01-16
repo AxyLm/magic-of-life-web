@@ -111,7 +111,7 @@ Router.post('/pm2/operation', (req, res) => {
                 res.send({ res: -2, msg: '重启失败', data: null })
                 return
             }
-            let sendMsg = { res: 0, msg: pid+'重启成功', data: null }
+            let sendMsg = { res: 0, msg: pid + '重启成功', data: null }
             logs.info('[/monit/pm2/operation] response', sendMsg)
             res.send(sendMsg)
         })
@@ -122,7 +122,7 @@ Router.post('/pm2/operation', (req, res) => {
                 res.send({ res: -2, msg: '启动失败', data: null })
                 return
             }
-            let sendMsg = { res: 0, msg: pid+'已停止', data: null }
+            let sendMsg = { res: 0, msg: pid + '已停止', data: null }
             logs.info('[/monit/pm2/operation] response', sendMsg)
             res.send(sendMsg)
         })

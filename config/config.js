@@ -7,7 +7,7 @@ const config = {
         BASE_URL: "/life",
         SERVER_NAME: "magic-of-life-web",
         SERVER_PORT: "9233",
-        DB_CLIENT: "mongodb://frp.soulfree.cn:7017/magic-of-life-db",
+        DB_CLIENT: "mongodb://localhost:27017/magic-of-life-db",
         ROUTER_MAIN: "admin",  // 管理员账号 ，可以查询所有路由
         GLANSEURL: "http://gweb.frp.soulfree.cn/api/3/all",
         FRP_MONIT: "http://admin.frp.soulfree.cn/api",
