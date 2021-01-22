@@ -1,6 +1,5 @@
 "use strict"
-const env = process.argv[2] || "dev"
-
+const auth = require("./account.config")
 const config = {
     "dev": {
         NODE_ENV: "development",
@@ -11,17 +10,6 @@ const config = {
         ROUTER_MAIN: "admin",  // 管理员账号 ，可以查询所有路由
         GLANSEURL: "http://gweb.frp.soulfree.cn/api/3/all",
         FRP_MONIT: "http://admin.frp.soulfree.cn/api",
-        TOKEN_KEY: "0p9UD",
-        FrpAuth: {
-            username: 'admin',
-            password: '123456'
-        },
-        eMail: {
-            host: "smtp.qq.com",
-            port: 465,
-            user: 'awm3@vip.qq.com',
-            pass: 'kyrsifqbiocxcade'
-        }
     },
     "pro": {
         NODE_ENV: "production",
@@ -32,21 +20,22 @@ const config = {
         ROUTER_MAIN: "admin",
         GLANSEURL: "http://gweb.frp.soulfree.cn/api/3/all",
         FRP_MONIT: "http://admin.frp.soulfree.cn/api",
-        TOKEN_KEY: "0p9UD",
-        FrpAuth: {
-            username: 'admin',
-            password: '123456'
-        },
-        eMail: {
-            host: "smtp.qq.com",
-            port: 465,
-            user: 'awm3@vip.qq.com',
-            pass: 'kyrsifqbiocxcade'
-        }
     }
 }
+const env = process.argv[2] || "dev"
+
+if (!config[env]) {
+    throw "env is not found"
+}
+
 process.env = {
+    // 原环境变量
     ...process.env,
+
+    // 自定义配置
     ...config[env],
+
+    // 账户类配置 不上传git
+    ...auth[env],
 }
 module.exports = config[env]

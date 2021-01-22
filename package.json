@@ -9,6 +9,7 @@
     "dev": "nodemon start.js dev -i ./static/apidoc/",
     "online": "node start.js pro",
     "test": "nodemon test.js",
+    "initDb": "node init.js",
     "build": "pkg -t node12-win --out-path=dist/ package.json",
     "apidoc": "apidoc -i route/ server/route -o static/apidoc/ -c config/apidoc.json"
   },

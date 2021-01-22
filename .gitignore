@@ -108,3 +108,5 @@ static/*
 static/apidoc/
 public/web/
 log/
+
+config/account.config.js
