@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "apidoc": "^0.23.0",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "colors": "^1.4.0",
     "connect-timeout": "^1.9.0",
