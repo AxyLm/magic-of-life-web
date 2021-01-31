@@ -11,6 +11,7 @@ const userMng = require('./system/userMng')
 const roleMng = require('./system/roleMng')
 const frpMonit = require('./monit/frp')
 
+const systemRouter = require('../server/route/system')
 module.exports = {
     init: function (app) {
         app.use(process.env.BASE_URL, login)
@@ -21,6 +22,7 @@ module.exports = {
         app.use(process.env.BASE_URL + '/soulfree', divers)
         app.use(process.env.BASE_URL + '/monit', validateAuth, monit)
         app.use(process.env.BASE_URL + '/monit', validateAuth, frpMonit)
+        app.use(process.env.BASE_URL + '/system', validateAuth, systemRouter)
         app.use(process.env.BASE_URL + '/scripturepavilion', scripturepavilion)
         app.use(process.env.BASE_URL + '/api/v1', publicApi)
     }

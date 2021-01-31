@@ -12,7 +12,13 @@ const logs = require('../../utils/log')
 Router.post('/getrole', (req, res) => {
     try {
         logs.info('[/getrole] ', req.body)
-        const { rolecode, rolename } = req.body
+        let { rolecode, rolename } = req.body
+        if (!rolecode) {
+            rolecode = ''
+        }
+        if (!rolename) {
+            rolename = ''
+        }
         rolesModel.find({ rolecode: { $regex: rolecode }, rolename: { $regex: rolename } }, '-_id -_v')
             .then((data) => {
                 if (data) {

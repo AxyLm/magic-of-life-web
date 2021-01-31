@@ -3,31 +3,23 @@ const Router = express.Router()
 const { roles, users } = require('../../db/model/users')
 const logs = require('../../utils/log')
 const EncryptUtil = require('../../utils/EncryptUtil')
-
+const {queryByPage} = require("../../server/util/queryByPage")
 const userModel = users
 /**
  * @api {post} /user/getUserList 分页获取用户
  * @apiGroup 用户管理
  */
-Router.post('/getUserList', (req, res) => {
+Router.post('/getUserListByPage', (req, res) => {
     try {
         let pageSize = req.body.pageSize || 10 //设置默认值
         let pageIndex = (typeof req.body.pageIndex) == "number" ? req.body.pageIndex : 1
         let count = 0
-        users.find({}, '-_id -__v -passWord')
+        queryByPage(users, { pageSize, pageIndex }, {
+            param: {},
+            option: '-_id -__v -password'
+        })
             .then((list) => {
-                console.log(list)
-                count = list.length //获取总的数据条数
-                return users.find({}, '-_id -__v -passWord').limit(Number(pageSize)).skip(Number((pageIndex - 1) * pageSize)).sort({ "createTime": 1 })
-            })
-            .then((data) => {
-                // res.send({err:0,msg:'查询ok',list:data})
-                let allpage = Math.ceil(count / pageSize)
-                if (data) {
-                    res.send({ code: 0, msg: '成功', data: data, count: count, allpage: allpage, pageIndex, pageSize })
-                } else {
-                    res.send({ code: -1, msg: '无数据' })
-                }
+                res.send({ code: 0, msg: '成功', data: list })
             })
             .catch((error) => {
                 logs.error('[/getUserList] ', error)
