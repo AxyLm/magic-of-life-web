@@ -25,6 +25,7 @@
     "express": "^4.17.1",
     "express-generator": "^4.16.1",
     "express-static": "^1.2.6",
+    "image-size": "^0.9.3",
     "joi": "^17.3.0",
     "jpeg-exif": "^1.1.4",
     "jsonwebtoken": "^8.5.1",

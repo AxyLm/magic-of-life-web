@@ -31,6 +31,7 @@ jobStart()
 app.use(log4js.connectLogger(log4js.getLogger("request"), {level: log4js.levels.INFO}));
 router.init(app)
 app.use('/life/',express.static(path.join(__dirname,'./public/web'))) // 接口文档页
+app.use('/life/public/xuanque',express.static(path.join(__dirname,'./static/xuanque'))) // xuanque
 app.use('/api/apidoc',express.static(path.join(__dirname,'./static/apidoc'))) // 接口文档页
 app.use('/life/public',express.static(path.join(__dirname,'./static/media'))) // 静态目录
 

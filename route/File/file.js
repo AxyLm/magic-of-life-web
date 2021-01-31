@@ -11,7 +11,7 @@ var storage = multer.diskStorage({
         // 指定文件路径
         console.log(file)
         file.createTime = (new Date()).getTime()
-        cb(null, path.join(__dirname,'../../static/file'))
+        cb(null, path.join(__dirname,'../../static/xuanque'))
         
     },
     filename: function (req, file, cb) {
@@ -47,7 +47,6 @@ Router.post('/upload', upload.single('magic_life'), (req, res) => {
     if(mimetype.indexOf('image') > -1){
         Exif = ExifImg( buffer )
     }
-    console.log(ext,Exif)
     
     // fileDb.insertMany({
     //     fileName: fileDesc.filename,
