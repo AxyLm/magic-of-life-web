@@ -6,7 +6,6 @@ const config = {
         "dataFile":{
             "type": "dateFile",
             "filename": path.join(__dirname, '../log/app.log'),
-            "maxLogSize": 50 * 1024 * 1024,
         }
     },
     "categories": {
