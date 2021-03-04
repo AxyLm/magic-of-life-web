@@ -1,6 +1,6 @@
 <h1 align="center">
-  <a href="http://magic.frp.soulfree.cn" target="_blank">
-    <img width='50' src='http://magic.frp.soulfree.cn/favicon.png'/>
+  <a href="http://magic.soulfree.cn" target="_blank">
+    <img width='50' src='http://magic.soulfree.cn/favicon.png'/>
     <p>Magic Life</p>
   </a>
 </h1>
